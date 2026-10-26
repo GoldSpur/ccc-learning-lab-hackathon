@@ -1,0 +1,161 @@
+{
+ "source": "CSR-1 — CCC Framework Specification v1.0.0 (PRE-EXISTING — published framework)",
+ "source_sha256": "781a772f558abd2e285b3238d6a071a7ff40436c01394305edca2c0e7e409741",
+ "wheel": [
+  {
+   "child_statement": "I can figure things out.",
+   "descriptor": "Tackling schoolwork, asking questions, persisting through hard problems.",
+   "display_name": "Learning",
+   "id": "spoke-learning",
+   "markers": {
+    "strong": "Attempts hard homework without shutting down and asks the teacher questions.",
+    "wobbly": "Tears over worksheets, 'I'm stupid,' avoiding anything academic."
+   },
+   "order": 1
+  },
+  {
+   "child_statement": "I belong.",
+   "descriptor": "Making friends, joining groups, navigating peer dynamics.",
+   "display_name": "Social",
+   "id": "spoke-social",
+   "markers": {
+    "strong": "Joins a game at the park, has at least one real friend.",
+    "wobbly": "Hovering at the edges, coming home saying nobody played with them."
+   },
+   "order": 2
+  },
+  {
+   "child_statement": "My body can do things.",
+   "descriptor": "Sports, play, coordination, physical daring.",
+   "display_name": "Physical",
+   "id": "spoke-physical",
+   "markers": {
+    "strong": "Tries the climbing wall, rides the bike, plays hard.",
+    "wobbly": "Sits out of everything, says 'I'll get hurt' about every activity, dreads PE."
+   },
+   "order": 3
+  },
+  {
+   "child_statement": "I can handle things myself.",
+   "descriptor": "Getting ready alone, solving small problems, managing routines.",
+   "display_name": "Independence",
+   "id": "spoke-independence",
+   "markers": {
+    "strong": "Gets dressed, packs their bag, orders their own food at a restaurant.",
+    "wobbly": "'Do it for me' about everything, panic when you're not nearby."
+   },
+   "order": 4
+  },
+  {
+   "child_statement": "I can express myself.",
+   "descriptor": "Speaking up, explaining ideas, saying what they need.",
+   "display_name": "Communication",
+   "id": "spoke-communication",
+   "markers": {
+    "strong": "Tells you about their day in detail, speaks up when something's wrong.",
+    "wobbly": "One-word answers, silence when upset, whispering to you instead of speaking to others."
+   },
+   "order": 5
+  },
+  {
+   "child_statement": "I can make things.",
+   "descriptor": "Drawing, building, imagining, original thinking without fear of 'doing it wrong.'",
+   "display_name": "Creativity",
+   "id": "spoke-creativity",
+   "markers": {
+    "strong": "Draws freely, makes up games, builds weird and wonderful things.",
+    "wobbly": "'I can't draw,' erasing everything, only copying others."
+   },
+   "order": 6
+  },
+  {
+   "child_statement": "I can handle my feelings.",
+   "descriptor": "Naming emotions, calming down, asking for help when overwhelmed.",
+   "display_name": "Emotional",
+   "id": "spoke-emotional",
+   "markers": {
+    "strong": "'I'm really mad right now,' then calms down and talks it through.",
+    "wobbly": "Explosions or shutdowns, feelings that come out sideways."
+   },
+   "order": 7
+  },
+  {
+   "child_statement": "I can do the right thing even when it's hard.",
+   "descriptor": "Telling the truth, standing up for others, admitting mistakes.",
+   "display_name": "Moral / Courage",
+   "id": "spoke-moral-courage",
+   "markers": {
+    "strong": "Admits 'I broke it,' tells you a friend was teased.",
+    "wobbly": "Lying to avoid trouble, joining in when others are unkind."
+   },
+   "naming_note": "Canonical display name per decision D1: 'Moral / Courage' (the form used in the manuscript, the Wheel visual, and the Workbook). Internal identifier remains 'spoke-moral-courage'. Other forms in existing assets ('Moral/Courage', 'Moral Courage', 'Moral courage') are variants, not canonical.",
+   "order": 8
+  }
+ ],
+ "cycle": [
+  {
+   "book_example": "Ten unhurried minutes playing whatever the child chooses, phone in another room. Nothing is being taught; the message is: you matter to me.",
+   "definition": "Everything starts with the relationship. A child who feels securely connected — seen, liked, and enjoyed — has a safe base to venture from.",
+   "id": "stage-connection",
+   "name": "Connection",
+   "order": 1
+  },
+  {
+   "book_example": "A son decides to try out for the soccer team even though he's nervous.",
+   "definition": "From the safe base of Connection, the child tries something — a new skill, a hard conversation, a risk. Confidence can't grow without attempts.",
+   "id": "stage-attempt",
+   "name": "Attempt",
+   "order": 2
+  },
+  {
+   "book_example": "He doesn't make the starting lineup and wants to quit after the first week.",
+   "definition": "The attempt gets hard — the stage most parents want to skip. Struggle is where the growth lives.",
+   "id": "stage-struggle",
+   "name": "Struggle",
+   "order": 3
+  },
+  {
+   "book_example": "\"Not starting stinks. I get it. Want to talk about what you could work on, or do you want to just be mad about it for a while?\"",
+   "definition": "Not rescue. Support. The parent stays close, acknowledges the difficulty, and helps the child think — but does not remove the obstacle.",
+   "id": "stage-support",
+   "name": "Support",
+   "order": 4
+  },
+  {
+   "book_example": "He realizes the starters practice footwork every day and decides to practice twenty minutes after school.",
+   "definition": "With support, the child pulls a lesson out of the struggle, using the three questions: What happened? What can we learn? What will we try differently?",
+   "id": "stage-learning",
+   "name": "Learning",
+   "order": 5
+  },
+  {
+   "book_example": "Three weeks later the coach moves him up a line, and he knows exactly why.",
+   "definition": "Effort pays off in something visible and earned — not a trophy for showing up. Small wins are the fuel of the whole cycle.",
+   "id": "stage-small-win",
+   "name": "Small Win",
+   "order": 6
+  },
+  {
+   "book_example": "He's asked to help warm up the younger kids at practice.",
+   "definition": "The child owns something real: a role, a chore, a commitment that matters to others. Responsibility says 'you are needed.'",
+   "id": "stage-responsibility",
+   "name": "Responsibility",
+   "order": 7
+  },
+  {
+   "book_example": "He sets his own practice schedule and sticks to it without reminders.",
+   "definition": "Having handled responsibility, the child starts doing hard things without the parent hovering. Independence is confidence in motion.",
+   "id": "stage-independence",
+   "name": "Independence",
+   "order": 8
+  },
+  {
+   "book_example": "Outcome of the lap; the cycle loops at a higher level.",
+   "decision_note": "Per decision D2: Confidence is Stage 9 AND the resulting belief developed through Stages 1–8. No mandatory activity is defined for Stage 9, and none may be invented. Two summary passages in the book (the Wheel scoring exercise and 'How the Two Frameworks Work Together') enumerate Stages 1–8 and describe Confidence as the arriving result; D2 holds both readings together — they are process summaries, not an alternate 8-stage list.",
+   "definition": "The child now carries a quiet belief: 'I can handle hard things.' Not arrogance — evidence. That confidence becomes the courage for the next attempt, at a higher level, and the cycle spins again.",
+   "id": "stage-confidence",
+   "name": "Confidence",
+   "order": 9
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "source": "CSR-3 — Safety Copy Module v0.2, FROZEN Oct 26, 2026 (PROVISIONAL — not clinically reviewed; independent safety review pending)",
+ "source_sha256": "8cdbacf7548a7530f8385fea80e9ccac5cbfbe5a632500387b717a836995d9e5",
+ "badge": "PROVISIONAL — fictional safety test. Independent safety review pending.",
+ "a1": {
+  "heading": "Safety stop — the guidance stops here",
+  "classes": {
+   "danger": "This fictional scenario describes a child in possible immediate danger.",
+   "abuse": "This fictional scenario describes a child who may be experiencing abuse or harm from another person.",
+   "distress": "This fictional scenario describes a child in serious emotional distress."
+  },
+  "body": "Confidence activities are not the right response to a possible safety emergency. The Learning Lab has stopped without providing them. This prototype cannot determine whether a child is safe, assess a child’s mental health, or replace emergency services or qualified professional support.",
+  "resources": [
+   "If a real child may be in immediate danger, call your local emergency number (911 in the United States).",
+   "If you suspect child abuse or neglect, contact your local child-protection agency or emergency services when there is immediate danger.",
+   "If a child is experiencing serious emotional distress, seek prompt support from a qualified mental-health professional. In the United States, you can also call or text 988 for crisis support."
+  ]
+ },
+ "a2": "This prototype’s safety screening has not been independently validated. Its safety wording is provisional and awaiting independent review. This demonstration uses fictional scenarios only and must not be relied upon to assess or manage a real child’s safety.",
+ "b1": "If a child talks about suicide or hurting themselves, take it seriously and seek prompt evaluation by a qualified mental-health professional. In the United States, call or text 988 for crisis support. If there is immediate danger, call 911 or seek emergency care. Do not leave a child alone when there is immediate danger.",
+ "b2": "What you’ve described might involve a safety concern, and this tool cannot determine safety from words alone. Guidance for this request stops here. If any part of this reflects a real situation, contact a qualified professional in your area. If a child may be in immediate danger, call your local emergency number (911 in the United States).",
+ "b3": "This prototype is limited to fictional scenarios involving children ages 7 to 9. It does not provide guidance for other ages. This is a limitation of the demonstration, not a claim that the Confidence Wheel or Confidence Cycle applies only to this age group.",
+ "b4": "This prototype cannot diagnose a child, assess a mental-health condition, or recommend treatment. Guidance for this request stops here. For diagnosis or treatment questions, consult a qualified healthcare or mental-health professional who can evaluate the child’s individual circumstances."
+}

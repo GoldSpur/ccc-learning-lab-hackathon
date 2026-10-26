@@ -1,0 +1,62 @@
+{
+ "source": "CSR-2 — Appendix B scripts, published third edition (PRE-EXISTING — published book content)",
+ "source_file_sha256": "fc37a8474fc0cc84d1c9e338f079870d4aba3917e1635fdafaa1894ac72f1879",
+ "records": [
+  {
+   "number": 1,
+   "situation": "\"I'm stupid.\"",
+   "what_to_say": "\"You're not stupid — you're stuck. Those are very different things. Stuck is temporary, and we can get unstuck together. What's the part that feels hardest?\"",
+   "what_not_to_say": "\"Don't say that about yourself!\" (Dismissing the feeling teaches them to hide it.)",
+   "one_action": "Separate identity from the moment — \"You're a kid having a hard time with this problem. Let's look at just the next step.\"",
+   "source_reference": "Create Childhood Confidence, Appendix B — \"I'm stupid.\""
+  },
+  {
+   "number": 2,
+   "situation": "\"Nobody likes me.\"",
+   "what_to_say": "\"That sounds really lonely. I'm sorry today felt like that. Tell me what happened — and remember, feeling left out sometimes doesn't mean nobody likes you. Who's someone who's usually kind to you?\"",
+   "what_not_to_say": "\"That's not true, you have lots of friends!\" (Arguing with their feelings shuts down the conversation.)",
+   "one_action": "Plan one small social step — invite one kid for one low-pressure activity this week.",
+   "source_reference": "Create Childhood Confidence, Appendix B — \"Nobody likes me.\""
+  },
+  {
+   "number": 3,
+   "situation": "\"I don't want to try. I'll be bad at it.\"",
+   "what_to_say": "\"You might be bad at it at first — everyone is. Being bad at the start is just the first step to being good later. I'll be right here while you try.\"",
+   "what_not_to_say": "\"Don't be a chicken — just do it!\" (Shame never builds courage.)",
+   "one_action": "Shrink the attempt — \"Just try for five minutes. If you hate it, we'll stop.\"",
+   "source_reference": "Create Childhood Confidence, Appendix B — \"I don't want to try. I'll be bad at it.\""
+  },
+  {
+   "number": 4,
+   "situation": "\"I can't do it.\"",
+   "what_to_say": "\"You can't do it *yet*. That word matters. What part can you do? Let's start there.\"",
+   "what_not_to_say": "\"Yes you can, it's easy!\" (Minimizing the struggle breaks trust.)",
+   "one_action": "Break it down together, then walk through the three questions: What happened? What can we learn? What will we try differently?",
+   "source_reference": "Create Childhood Confidence, Appendix B — \"I can't do it.\""
+  },
+  {
+   "number": 5,
+   "situation": "Your child loses a game (tears, anger, \"this is rigged\").",
+   "what_to_say": "\"Losing stinks. It's okay to be upset — you cared about it, and caring is good. Want a minute, or want to talk?\"",
+   "what_not_to_say": "\"It's just a game, stop crying.\" (Their feelings are real even when the stakes are small.)",
+   "one_action": "When they're calm, ask: \"What did the winner do well? Is there one thing you want to practice?\" Turn the loss into data.",
+   "source_reference": "Create Childhood Confidence, Appendix B — Your child loses a game (tears, anger, \"this is rigged\")."
+  },
+  {
+   "number": 6,
+   "situation": "Your child gets in trouble at school.",
+   "what_to_say": "\"I heard from school. Before anything else — are you okay? Now tell me what happened, your version.\"",
+   "what_not_to_say": "\"I'm so disappointed in you.\" (Lead with shame and you'll never hear the real story.)",
+   "one_action": "Separate the behavior from the child — \"You're not a bad kid; you made a bad choice. What will you do differently, and how will you make it right?\"",
+   "source_reference": "Create Childhood Confidence, Appendix B — Your child gets in trouble at school."
+  },
+  {
+   "number": 7,
+   "situation": "\"I don't want to go to school.\"",
+   "what_to_say": "\"Tell me more — is it something that happened, something coming up, or just a feeling this morning?\"",
+   "what_not_to_say": "\"Too bad, you're going.\" (Sometimes they do just have to go — but you'll never know if something's wrong unless you ask first.)",
+   "one_action": "Identify the specific worry and make a plan for it — a script for talking to the teacher, a buddy to find at recess, a note in their backpack.",
+   "source_reference": "Create Childhood Confidence, Appendix B — \"I don't want to go to school.\""
+  }
+ ]
+}
