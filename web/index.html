@@ -6,10 +6,10 @@
 <title>Childhood Confidence Learning Lab — Interactive Demo</title>
 <style>
   :root {
-    --ink:#1d2733; --paper:#faf7f0; --card:#ffffff; --line:#ddd5c4;
+    --ink:#1d2733; --paper:#faf7f0; --card:#ffffff; --line:#ddd5c4; --track:#d8c9a8;
     --accent:#c0502f; --good:#1e7a46; --warn:#9a6a00; --stop:#a71d1d; --chip:#eef2f5;
     --sunrise-1:#fde6d2; --sunrise-2:#f9c69c; --sunrise-3:#f0ad7c;
-    --shadow: 0 2px 10px rgba(120, 72, 20, .08), 0 12px 32px rgba(120, 72, 20, .06);
+    --shadow: 0 1px 3px rgba(120, 72, 20, .06), 0 4px 14px rgba(120, 72, 20, .07), 0 16px 40px rgba(120, 72, 20, .07);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -18,17 +18,18 @@
 
   /* Sticky top navigation */
   .topnav { position: sticky; top: 0; z-index: 20; background: rgba(250,247,240,.96); border-bottom: 1px solid var(--line);
-    padding: 10px 18px; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between; }
-  .topnav .brand { font-weight: bold; font-size: 15px; letter-spacing: .02em; }
+    padding: 10px 18px; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between;
+    backdrop-filter: blur(6px); box-shadow: 0 1px 14px rgba(120, 72, 20, .07); }
+  .topnav .brand { font-weight: bold; font-size: 16px; letter-spacing: .02em; }
   .topnav nav { font-size: 14.5px; }
   .topnav nav a { color: var(--accent); text-decoration: none; margin: 0 6px; }
   .topnav nav a:hover { text-decoration: underline; }
 
-  header, main, footer { max-width: 1080px; margin: 0 auto; padding: 0 18px; }
-  header { padding-top: 30px; background: linear-gradient(180deg, var(--sunrise-1) 0%, var(--sunrise-2) 55%, var(--paper) 100%);
+  header, main, footer { max-width: 1180px; margin: 0 auto; padding: 0 18px; }
+  header { padding-top: 34px; background: linear-gradient(180deg, var(--sunrise-1) 0%, var(--sunrise-2) 55%, var(--paper) 100%);
     border-radius: 0 0 24px 24px; }
-  h1 { font-size: 34px; margin: 0 0 6px; line-height: 1.15; }
-  h2 { font-size: 23px; margin: 34px 0 12px; }
+  h1 { font-size: 40px; margin: 0 0 6px; line-height: 1.12; letter-spacing: -.01em; }
+  h2 { font-size: 26px; margin: 48px 0 14px; letter-spacing: -.005em; }
   h3 { font-size: 16px; margin: 0 0 6px; }
   section { scroll-margin-top: 64px; }
   .founderline { font-size: 19px; font-style: italic; color: #7a3b1c; margin: 4px 0 10px; max-width: 46em; }
@@ -39,30 +40,52 @@
   .badge { display:inline-block; background:#fdecec; border:1px solid #e5a3a3; color:var(--stop); border-radius:999px; padding:2px 10px; font-size:12px; margin-left:8px; vertical-align: middle; font-weight: bold; }
   .badge.demo { background:#e8f0e6; border-color:#a9c6a2; color:#2e5b25; margin-left: 10px; }
   .strip { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:18px 0 6px; }
-  .strip .card, .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow: var(--shadow); }
+  .strip .card, .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow: var(--shadow); }
+  .strip .card:nth-child(1) { border-top: 4px solid #e06a35; }
+  .strip .card:nth-child(2) { border-top: 4px solid #2f8b96; }
+  .strip .card:nth-child(3) { border-top: 4px solid #6a58bd; }
 
   /* Framework: wheel + cycle */
-  .fw-grid { display:grid; grid-template-columns: minmax(320px, 470px) 1fr; gap:22px; align-items:start; }
-  #wheel svg { width: 100%; height: auto; display: block; }
+  .fw-grid { display:grid; grid-template-columns: minmax(500px, 600px) 1fr; gap:30px; align-items:start; }
+  #wheel { padding: 8px 4px 2px; }
+  #wheel svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 18px 28px rgba(140, 70, 20, .16)); }
   .wedge { cursor: pointer; }
   .wedge path { stroke: #fff; stroke-width: 2; transition: filter .15s ease; }
   .wedge:hover path { filter: brightness(1.07); }
   .wedge:focus { outline: none; }
   .wedge:focus path, .wedge.selected path { stroke: var(--ink); stroke-width: 3.5; }
+  .wedge.selected path { filter: drop-shadow(0 0 7px rgba(29, 39, 51, .35)); }
   .wedge text { font-family: Georgia, serif; font-weight: bold; fill: #232a20; pointer-events: none; }
   .wheel-center-name { font-family: Georgia, serif; font-weight: bold; fill: var(--ink); }
   .wheel-center-stmt { font-family: Georgia, serif; font-style: italic; fill: #4c5a68; }
+  .detail { border-top: 5px solid var(--spoke-color, var(--sunrise-3)); }
   .detail .stmt { font-style: italic; color: var(--accent); font-size: 16px; margin: 2px 0 8px; }
   .detail p { margin: 6px 0; font-size: 14.5px; }
-  .cycle { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; margin: 10px 0 14px; }
-  .cstep { font: inherit; font-size: 13.5px; background: var(--chip); border: 1px solid var(--line); border-radius: 12px;
-    padding: 8px 12px; cursor: pointer; margin-bottom: calc(var(--i) * 9px); text-align: left; }
-  .cstep .num { display:inline-block; background: var(--accent); color:#fff; border-radius:999px; min-width: 20px; text-align:center;
-    font-size: 11.5px; margin-right: 6px; padding: 1px 4px; }
-  .cstep:hover { border-color: var(--accent); }
-  .cstep.selected { background: var(--sunrise-1); border-color: var(--accent); font-weight: bold; }
-  .lens { align-self: center; border: 1.5px dashed var(--warn); color: var(--warn); background: #fffaf0; border-radius: 999px;
-    padding: 5px 12px; font-size: 12.5px; margin-bottom: 40px; }
+  @media (min-width: 901px) { .fw-grid .detail { position: sticky; top: 84px; } }
+  /* Cycle as a connected pathway: numbered nodes on a track that rises
+     stage by stage. The per-node connectors follow each node's own height,
+     so the path reads as one connected journey in canonical order. */
+  .cycle { margin: 16px 0 14px; }
+  .track { display: flex; align-items: flex-start; }
+  .cstep { flex: 1 1 0; min-width: 0; font: inherit; background: none; border: none; cursor: pointer; position: relative;
+    display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center;
+    padding: calc((8 - var(--i)) * 5px) 4px 6px; min-height: 44px; }
+  .cstep::before, .cstep::after { content: ''; position: absolute; top: calc((8 - var(--i)) * 5px + 17px);
+    width: 50%; height: 3px; background: var(--track); border-radius: 2px; }
+  .cstep::before { left: 0; }
+  .cstep::after { right: 0; }
+  .cstep:first-child::before, .cstep:last-child::after { display: none; }
+  .cstep .num { position: relative; z-index: 1; width: 34px; height: 34px; border-radius: 999px; background: #fff;
+    border: 2.5px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 14.5px; transition: transform .15s ease, background .15s ease, color .15s ease; }
+  .cstep .nm { font-size: 13px; line-height: 1.25; color: #4c5a68; }
+  .cstep:hover .num { transform: scale(1.1); }
+  .cstep.selected .num { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(192, 80, 47, .35); }
+  .cstep.selected .nm { color: var(--ink); font-weight: bold; }
+  .lensrow { position: relative; height: 34px; }
+  .lens { position: absolute; left: 33.333%; transform: translateX(-50%); border: 1.5px dashed var(--warn); color: var(--warn);
+    background: #fffaf0; border-radius: 999px; padding: 4px 12px; font-size: 12.5px; white-space: nowrap; }
+  .lens::before { content: ''; position: absolute; left: 50%; top: -9px; height: 9px; border-left: 1.5px dashed var(--warn); }
 
   /* Demonstration (existing B2 behavior, restyled shell) */
   .presets { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
@@ -95,6 +118,7 @@
   .legend p { margin: 6px 0; font-size: 14.5px; }
 
   /* Journey (fictional demonstration data) */
+  .journey-card { border-top: 5px solid var(--sunrise-3); background: linear-gradient(180deg, #fffdf7 0, #ffffff 150px); }
   .jstats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin: 12px 0; }
   .jstat { text-align:center; }
   .jstat .n { font-size: 30px; font-weight: bold; color: var(--accent); display:block; }
@@ -130,10 +154,38 @@
   .wchip.validated { background:#e2f2e8; border-color:#a9c6a2; color:#1e5b34; }
 
   footer { padding:30px 18px 44px; font-size:13px; color:#4c5a68; }
-  @media (max-width:820px){
+  @media (max-width:900px){
     .fw-grid{grid-template-columns:1fr} .strip,.cols,.presets,.bgrid,.jstats{grid-template-columns:1fr}
-    .cstep{margin-bottom: calc(var(--i) * 4px)} .lens{margin-bottom: 16px}
-    h1{font-size:27px} .founderline{font-size:17px}
+    h1{font-size:26px} .founderline{font-size:15px}
+    /* Condensed opening: identity, the governing principle, and the
+       provisional safety notice all stay — tightened and reordered so the
+       Confidence Wheel begins on the first screen. */
+    .topnav { padding: 7px 12px; gap: 2px 10px; }
+    .topnav .brand { font-size: 14px; }
+    .topnav nav { font-size: 13px; }
+    .topnav nav a { display: inline-block; padding: 12px 3px; margin: 0 3px; }
+    header { display: flex; flex-direction: column; padding-top: 14px; border-radius: 0 0 18px 18px; }
+    header h1 { order: 1; margin: 0 0 2px; line-height: 1.18; }
+    .founderline { order: 2; margin: 2px 0 8px; line-height: 1.35; }
+    .banner { order: 3; padding: 8px 10px; font-size: 13px; margin-bottom: 8px; line-height: 1.4; }
+    .banner .badge { margin: 6px 0 0; }
+    header .sub { order: 4; font-size: 13px; margin: 0 0 6px; line-height: 1.4; }
+    .repolinks { order: 5; font-size: 12px; margin: 0 0 4px; }
+    .strip { order: 6; gap: 6px; margin: 6px 0 2px; }
+    .strip .card { padding: 8px 10px; font-size: 12.5px; line-height: 1.35; }
+    .strip .card h3 { display: inline; font-size: 13.5px; margin-right: 6px; }
+    h2 { font-size: 21px; margin: 20px 0 8px; }
+    /* Cycle becomes an accessible vertical pathway, order preserved */
+    .track { flex-direction: column; align-items: stretch; }
+    .cstep { flex-direction: row; align-items: center; gap: 12px; text-align: left; padding: 7px 4px; }
+    .cstep::before, .cstep::after { left: 20px; width: 3px; height: 50%; }
+    .cstep::before { top: 0; }
+    .cstep::after { top: 50%; }
+    .cstep .nm { font-size: 14px; }
+    .lensrow { height: auto; margin: 8px 0 2px; }
+    .lens { position: static; transform: none; display: inline-block; white-space: normal; }
+    .lens::before { display: none; }
+    button.ghost, button.run, button.act, .preset { min-height: 44px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -155,7 +207,7 @@
   <p class="repolinks"><a href="https://github.com/GoldSpur/ccc-learning-lab-hackathon">Public repository</a> · <a href="https://github.com/GoldSpur/ccc-learning-lab-hackathon/blob/main/PROVENANCE.md">PROVENANCE.md — source hashes and content provenance</a></p>
   <div class="banner"><b>FICTIONAL DEMO.</b> Every scenario here is invented. No real child or parent information is used, collected, or stored. In this local demo the AI step runs on recorded or mock responses — the safety screening, validation, and script selection you see are the real, deterministic system.<span class="badge" id="badge">PROVISIONAL — fictional safety test. Independent safety review pending.</span></div>
   <div class="strip" id="systemCards">
-    <div class="card"><h3>1 · The Wheel — WHAT</h3>The Confidence Wheel diagnoses which area of confidence is wobbly right now. Eight spokes, one focus at a time.</div>
+    <div class="card"><h3>1 · The Wheel — WHAT</h3>The Confidence Wheel helps identify which area of confidence may need support. Eight spokes, one focus at a time.</div>
     <div class="card"><h3>2 · The Cycle — HOW</h3>The Confidence Cycle is how a confidence-building moment unfolds: connection, a brave attempt, struggle met with support, a small win — repeated.</div>
     <div class="card"><h3>3 · The Script — WORDS</h3>The approved scripts give the words a parent can use: a matched, parent-approved script from the book's Appendix B — shown word for word, never rewritten by the AI.</div>
   </div>
@@ -263,7 +315,7 @@
 
   <section id="journey" aria-labelledby="journey-h">
     <h2 id="journey-h">My Confidence Journey<span class="badge demo">DEMONSTRATION DATA — FICTIONAL</span></h2>
-    <div class="card">
+    <div class="card journey-card">
       <p class="sub">A glimpse of how a future parent-facing product could show practice at a glance. Every number and note below is invented sample data for this demonstration — nothing is tracked, stored, or collected.</p>
       <div class="jstats">
         <div class="jstat"><span class="n">12</span>practice moments logged</div>
@@ -305,6 +357,7 @@ function wedgePath(cx, cy, rO, rI, a0, a1) {
 function selectSpoke(id) {
   const w = FW.wheel.find(x => x.id === id); if (!w) return;
   document.querySelectorAll('.wedge').forEach(g => g.classList.toggle('selected', g.dataset.id === id));
+  $('#spokeDetail').style.setProperty('--spoke-color', SPOKE_COLORS[w.order - 1]);
   $('#wheelCenterName').textContent = w.display_name;
   $('#wheelCenterStmt').textContent = '“' + w.child_statement + '”';
   $('#spokeDetail').innerHTML = `<h3>${w.order}. ${w.display_name}</h3>
@@ -321,15 +374,15 @@ function renderWheel() {
     const [lx, ly] = polar(cx, cy, 148, mid);
     const words = w.display_name.split(' ');
     const label = words.length > 1 && w.display_name.length > 11
-      ? `<text x="${lx}" y="${ly - 6}" text-anchor="middle" font-size="12.5"><tspan x="${lx}" dy="0">${words.slice(0, -1).join(' ')}</tspan><tspan x="${lx}" dy="14">${words[words.length - 1]}</tspan></text>`
-      : `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-size="12.5">${w.display_name}</text>`;
+      ? `<text x="${lx}" y="${ly - 7}" text-anchor="middle" font-size="13.5"><tspan x="${lx}" dy="0">${words.slice(0, -1).join(' ')}</tspan><tspan x="${lx}" dy="15">${words[words.length - 1]}</tspan></text>`
+      : `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-size="13.5">${w.display_name}</text>`;
     return `<g class="wedge" data-id="${w.id}" tabindex="0" role="button" aria-label="Spoke ${w.order}: ${w.display_name} — ${w.child_statement}">
       <path d="${wedgePath(cx, cy, rO, rI, a0, a1)}" fill="${SPOKE_COLORS[i]}"></path>${label}</g>`;
   }).join('');
   $('#wheel').innerHTML = `<svg viewBox="0 0 440 440" role="group" aria-label="The Confidence Wheel — eight spokes"><g id="wheelRotor">${parts}</g>
     <circle cx="${cx}" cy="${cy}" r="76" fill="#ffffff" stroke="#ddd5c4"></circle>
-    <text id="wheelCenterName" class="wheel-center-name" x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="16"></text>
-    <text id="wheelCenterStmt" class="wheel-center-stmt" x="${cx}" y="${cy + 16}" text-anchor="middle" font-size="11.5"></text></svg>`;
+    <text id="wheelCenterName" class="wheel-center-name" x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="18"></text>
+    <text id="wheelCenterStmt" class="wheel-center-stmt" x="${cx}" y="${cy + 17}" text-anchor="middle" font-size="12.5"></text></svg>`;
   document.querySelectorAll('.wedge').forEach(g => {
     g.addEventListener('click', () => selectSpoke(g.dataset.id));
     g.addEventListener('focus', () => selectSpoke(g.dataset.id));
@@ -348,10 +401,10 @@ function selectStage(id) {
     <p class="attr">${s.id} · Canonical framework content (CSR-1), shown verbatim.</p>`;
 }
 function renderCycle() {
-  $('#cycle').innerHTML = FW.cycle.map((s, i) => {
-    const lens = i === 3 ? '<span class="lens" title="The Stuck Point is a diagnostic lens at Struggle → Support — it is not a stage.">◎ Stuck Point — a lens at Struggle → Support, never a stage</span>' : '';
-    return `${lens}<button class="cstep" style="--i:${i}" data-id="${s.id}" aria-label="Stage ${s.order}: ${s.name}"><span class="num">${s.order}</span>${s.name}</button>`;
-  }).join('');
+  $('#cycle').innerHTML = '<div class="track">' + FW.cycle.map((s, i) =>
+    `<button class="cstep" style="--i:${i}" data-id="${s.id}" aria-label="Stage ${s.order}: ${s.name}"><span class="num">${s.order}</span><span class="nm">${s.name}</span></button>`
+  ).join('') + '</div>'
+    + '<div class="lensrow"><span class="lens" title="The Stuck Point is a diagnostic lens at Struggle → Support — it is not a stage.">◎ Stuck Point — a lens at Struggle → Support, never a stage</span></div>';
   document.querySelectorAll('.cstep').forEach(b => b.addEventListener('click', () => selectStage(b.dataset.id)));
   selectStage('stage-connection');
 }
