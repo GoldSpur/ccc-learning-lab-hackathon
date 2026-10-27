@@ -7,8 +7,8 @@
 <style>
   :root {
     --ink:#1d2733; --paper:#faf7f0; --card:#ffffff; --line:#ddd5c4;
-    --accent:#b4552d; --good:#1e7a46; --warn:#9a6a00; --stop:#a71d1d; --chip:#eef2f5;
-    --sunrise-1:#fdeeda; --sunrise-2:#fbe3c2; --sunrise-3:#f7cfa4;
+    --accent:#c0502f; --good:#1e7a46; --warn:#9a6a00; --stop:#a71d1d; --chip:#eef2f5;
+    --sunrise-1:#fde6d2; --sunrise-2:#f9c69c; --sunrise-3:#f0ad7c;
     --shadow: 0 2px 10px rgba(120, 72, 20, .08), 0 12px 32px rgba(120, 72, 20, .06);
   }
   * { box-sizing: border-box; }
@@ -60,7 +60,7 @@
   .cstep .num { display:inline-block; background: var(--accent); color:#fff; border-radius:999px; min-width: 20px; text-align:center;
     font-size: 11.5px; margin-right: 6px; padding: 1px 4px; }
   .cstep:hover { border-color: var(--accent); }
-  .cstep.selected { background: #fdeeda; border-color: var(--accent); font-weight: bold; }
+  .cstep.selected { background: var(--sunrise-1); border-color: var(--accent); font-weight: bold; }
   .lens { align-self: center; border: 1.5px dashed var(--warn); color: var(--warn); background: #fffaf0; border-radius: 999px;
     padding: 5px 12px; font-size: 12.5px; margin-bottom: 40px; }
 
@@ -100,10 +100,34 @@
   .jstat .n { font-size: 30px; font-weight: bold; color: var(--accent); display:block; }
   .chips { display:flex; flex-wrap:wrap; gap:8px; margin: 8px 0 14px; }
   .jchip { border-radius:999px; padding:4px 12px; font-size:13px; border:1px solid var(--line); background:var(--chip); }
-  .jchip.explored { background:#fdeeda; border-color: var(--accent); font-weight: bold; }
+  .jchip.explored { background:var(--sunrise-1); border-color: var(--accent); font-weight: bold; }
   .jchip.unexplored { color:#8b98a5; }
   .obs { border-left: 4px solid var(--sunrise-3); padding: 4px 0 4px 12px; margin: 10px 0; font-size: 14.5px; }
   .obs .attr { display:block; margin-top: 2px; }
+
+  /* D2: guided seven-step rail */
+  .rail { list-style:none; padding:0; margin:14px 0 20px; display:grid; gap:10px; }
+  .rstep { background:var(--card); border:1px solid var(--line); border-left:6px solid var(--sunrise-3); border-radius:12px;
+    padding:12px 14px; display:flex; gap:12px; box-shadow: var(--shadow); }
+  .rstep .n { flex:0 0 auto; width:28px; height:28px; border-radius:999px; background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; margin-top:2px; }
+  .rstep.done { border-left-color: var(--good); }
+  .rstep.done .n { background: var(--good); }
+  .rstep h3 { font-size:15.5px; margin:0 0 2px; }
+  .rstep p { margin:4px 0; font-size:14.5px; }
+  .rstep blockquote { font-size:16px; margin:6px 0; }
+  .rstep details { margin-top:6px; }
+  .rstep summary { cursor:pointer; font-weight:bold; font-size:14.5px; }
+
+  /* D2: animated wheel — presentation of an already-validated result */
+  #wheelRotor { transform-box: view-box; transform-origin: 220px 220px; }
+  #wheelRotor.spinning { transition: transform 1.6s cubic-bezier(.15,.6,.25,1); }
+  .wedge.landed path { stroke:#ffffff; stroke-width:4; filter: drop-shadow(0 0 12px rgba(214,61,104,.8)); }
+  .wheel-state { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:6px 0 10px; }
+  .wchip { display:inline-block; border-radius:999px; padding:3px 12px; font-size:12.5px; font-weight:bold; border:1px solid var(--line); background:var(--chip); }
+  .wchip.illustrative { background:#fdf3d8; border-color:#e3c86e; color:#7a5200; }
+  .wchip.working { background:#fde3ec; border-color:#e5a3bc; color:#8c2348; }
+  .wchip.validated { background:#e2f2e8; border-color:#a9c6a2; color:#1e5b34; }
 
   footer { padding:30px 18px 44px; font-size:13px; color:#4c5a68; }
   @media (max-width:820px){
@@ -130,7 +154,7 @@
   <p class="sub">An AI that shows its work, stays inside a human-authored framework, and refuses when it should. Built by <b>Albert Tumblin III</b>, author of <i>Create Childhood Confidence</i>, for the Meta Global AI Developer Hackathon.</p>
   <p class="repolinks"><a href="https://github.com/GoldSpur/ccc-learning-lab-hackathon">Public repository</a> · <a href="https://github.com/GoldSpur/ccc-learning-lab-hackathon/blob/main/PROVENANCE.md">PROVENANCE.md — source hashes and content provenance</a></p>
   <div class="banner"><b>FICTIONAL DEMO.</b> Every scenario here is invented. No real child or parent information is used, collected, or stored. In this local demo the AI step runs on recorded or mock responses — the safety screening, validation, and script selection you see are the real, deterministic system.<span class="badge" id="badge">PROVISIONAL — fictional safety test. Independent safety review pending.</span></div>
-  <div class="strip">
+  <div class="strip" id="systemCards">
     <div class="card"><h3>1 · The Wheel — WHAT</h3>The Confidence Wheel diagnoses which area of confidence is wobbly right now. Eight spokes, one focus at a time.</div>
     <div class="card"><h3>2 · The Cycle — HOW</h3>The Confidence Cycle is how a confidence-building moment unfolds: connection, a brave attempt, struggle met with support, a small win — repeated.</div>
     <div class="card"><h3>3 · The Script — WORDS</h3>The approved scripts give the words a parent can use: a matched, parent-approved script from the book's Appendix B — shown word for word, never rewritten by the AI.</div>
@@ -142,6 +166,7 @@
     <div class="fw-grid">
       <div>
         <h3>The Confidence Wheel — pick the wobbly spoke</h3>
+        <p class="wheel-state"><span class="wchip illustrative" id="wheelChip">Illustrative example — Emotional is highlighted so you can explore the Wheel. This is not an AI result.</span><button class="ghost hidden" id="skipAnim" type="button">Skip animation</button></p>
         <div id="wheel"></div>
       </div>
       <div class="card detail" id="spokeDetail" aria-live="polite"></div>
@@ -153,6 +178,43 @@
 
   <section id="demonstration" aria-labelledby="demonstration-h">
     <h2 id="demonstration-h">Demonstration — try a fictional scenario</h2>
+    <h3 style="margin-top:4px">The guided tour — seven steps, about three minutes</h3>
+    <p class="sub">New to the book? Follow the rail. It runs one fictional scenario — AT1 — through the whole governed system, using the real outputs that appear in the results below. Every other prepared scenario stays available under the rail.</p>
+    <ol class="rail" id="demoRail">
+      <li class="rstep" data-step="1" tabindex="0"><span class="n">1</span><div>
+        <h3>Understand the framework</h3>
+        <p>The Wheel finds <b>WHAT</b> area of confidence is wobbly. The Cycle shows <b>HOW</b> a confidence-building moment unfolds. The approved scripts give the exact <b>WORDS</b>. <a href="#systemCards">The three cards at the top of this page</a> are the whole system — everything after this step is those three ideas at work.</p>
+      </div></li>
+      <li class="rstep" data-step="2" tabindex="0"><span class="n">2</span><div>
+        <h3>Explore a fictional scenario</h3>
+        <p id="railScenario">Loading the AT1 scenario…</p>
+        <p><button class="run" id="railRunAt1" type="button">Run AT1</button></p>
+      </div></li>
+      <li class="rstep" data-step="3" tabindex="0"><span class="n">3</span><div>
+        <h3>See the AI interpretation</h3>
+        <p>The AI reads the moment and proposes three things only: a spoke, Cycle stages, and a stuck-point anchor. Its answer for AT1 is a genuine recorded response — <b>RECORDED LIVE</b>, replayed verbatim, never re-run.</p>
+        <div id="railProposal"><p class="attr">Run AT1 (step 2) to see the recorded proposal here.</p></div>
+      </div></li>
+      <li class="rstep" data-step="4" tabindex="0"><span class="n">4</span><div>
+        <h3>See independent validation</h3>
+        <p>An AI interpretation is not a framework validation. A deterministic checker — no AI involved — compares every identifier in the proposal against the published framework. An invented spoke or stage rejects the proposal in full; it is never repaired or quietly fixed.</p>
+        <div id="railValidation"><p class="attr">The checker's verdict appears here after a run.</p></div>
+      </div></li>
+      <li class="rstep" data-step="5" tabindex="0"><span class="n">5</span><div>
+        <h3>Receive approved guidance</h3>
+        <p>The words a parent receives are an approved script from the book's Appendix B, chosen by a local, auditable matcher reading the scenario text. The model never selects script text — and never sees it.</p>
+        <div id="railScript"><p class="attr">The matched script appears here after a run.</p></div>
+      </div></li>
+      <li class="rstep" data-step="6" tabindex="0"><span class="n">6</span><div>
+        <h3>Keep the parent in control</h3>
+        <p>In the result below, the parent can <b>confirm</b> the interpretation or <b>override</b> the spoke. An override is re-validated against the framework before it counts — an invalid override is rejected on screen — and the matched script and its words never change. Safety stops cannot be overridden at all.</p>
+      </div></li>
+      <li class="rstep" data-step="7" tabindex="0"><span class="n">7</span><div>
+        <h3>Show the evidence</h3>
+        <p>Every run leaves a trace: screening, proposal, validation, local matching, and the budget safeguard. Nothing is hidden behind the answer.</p>
+        <details id="railTraceDetails"><summary>Evidence trace</summary><div id="railTrace"><p class="attr">The full trace appears here after a run — and always in the result below.</p></div></details>
+      </div></li>
+    </ol>
     <div class="presets" id="presets"></div>
     <div class="card" style="margin-top:12px">
       <h3>…or write your own fictional scenario</h3>
@@ -233,7 +295,7 @@ const spokeName = (id) => (FW.wheel.find(w => w.id === id) || {}).display_name |
 const stageName = (id) => (FW.cycle.find(s => s.id === id) || {}).name || id;
 
 /* --- Framework: interactive Wheel (canonical CSR-1 data) --- */
-const SPOKE_COLORS = ['#e8875a', '#e9a13b', '#a3b34c', '#4f9da6', '#5b8e7d', '#7c6cc4', '#d1607a', '#b4552d'];
+const SPOKE_COLORS = ['#e06a35', '#dd8f16', '#8fa832', '#2f8b96', '#3f8268', '#6a58bd', '#d63d68', '#c0502f'];
 function polar(cx, cy, r, deg) { const rad = (deg - 90) * Math.PI / 180; return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)]; }
 function wedgePath(cx, cy, rO, rI, a0, a1) {
   const [x0, y0] = polar(cx, cy, rO, a0), [x1, y1] = polar(cx, cy, rO, a1);
@@ -264,7 +326,7 @@ function renderWheel() {
     return `<g class="wedge" data-id="${w.id}" tabindex="0" role="button" aria-label="Spoke ${w.order}: ${w.display_name} — ${w.child_statement}">
       <path d="${wedgePath(cx, cy, rO, rI, a0, a1)}" fill="${SPOKE_COLORS[i]}"></path>${label}</g>`;
   }).join('');
-  $('#wheel').innerHTML = `<svg viewBox="0 0 440 440" role="group" aria-label="The Confidence Wheel — eight spokes">${parts}
+  $('#wheel').innerHTML = `<svg viewBox="0 0 440 440" role="group" aria-label="The Confidence Wheel — eight spokes"><g id="wheelRotor">${parts}</g>
     <circle cx="${cx}" cy="${cy}" r="76" fill="#ffffff" stroke="#ddd5c4"></circle>
     <text id="wheelCenterName" class="wheel-center-name" x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="16"></text>
     <text id="wheelCenterStmt" class="wheel-center-stmt" x="${cx}" y="${cy + 16}" text-anchor="middle" font-size="11.5"></text></svg>`;
@@ -294,8 +356,93 @@ function renderCycle() {
   selectStage('stage-connection');
 }
 
-function renderJourneyChips() {
-  const explored = new Set(['spoke-learning', 'spoke-social', 'spoke-physical', 'spoke-communication', 'spoke-emotional']);
+/* --- D2: animated wheel — presents a result the system already validated.
+   The animation never determines, alters, or re-rolls a classification: it
+   is only ever called with the validated spoke of a GUIDANCE outcome, and
+   the landing angle is computed deterministically from that spoke. --- */
+let spinTimer = null, spinTarget = null;
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function finalAngleFor(id) {
+  const i = FW.wheel.findIndex(w => w.id === id);
+  const mid = i * 45 + 22.5;   // wedge centre, in wheel coordinates
+  return 720 - mid;            // two full turns, settling with the wedge at the top
+}
+function setWheelChip(text, kind) { const chip = $('#wheelChip'); if (chip) { chip.textContent = text; chip.className = 'wchip ' + kind; } }
+function cancelSpin() {
+  if (spinTimer) { clearTimeout(spinTimer); spinTimer = null; }
+  spinTarget = null;
+  const rotor = $('#wheelRotor'); if (rotor) rotor.classList.remove('spinning');
+  const skip = $('#skipAnim'); if (skip) skip.classList.add('hidden');
+}
+function finishLanding(id, label) {
+  cancelSpin();
+  selectSpoke(id);
+  setWheelChip(`Validated result — ${spokeName(id)}${label ? ' · ' + label : ''}`, 'validated');
+}
+function landOnSpoke(id, label) {
+  const rotor = $('#wheelRotor'); if (!rotor) return;
+  cancelSpin();
+  document.querySelectorAll('.wedge').forEach(g => g.classList.toggle('landed', g.dataset.id === id));
+  const angle = finalAngleFor(id);
+  if (reducedMotion()) { rotor.style.transform = `rotate(${angle}deg)`; finishLanding(id, label); return; }
+  setWheelChip('Finding the wobbly spoke — presenting the result the system already validated…', 'working');
+  rotor.style.transform = 'rotate(0deg)';
+  void rotor.getBoundingClientRect();
+  rotor.classList.add('spinning');
+  rotor.style.transform = `rotate(${angle}deg)`;
+  $('#skipAnim').classList.remove('hidden');
+  spinTarget = { id, label };
+  spinTimer = setTimeout(() => finishLanding(id, label), 1700);
+}
+function skipAnimation() {
+  if (!spinTarget) return;
+  const { id, label } = spinTarget;
+  const rotor = $('#wheelRotor'); if (rotor) rotor.style.transform = `rotate(${finalAngleFor(id)}deg)`;
+  finishLanding(id, label);
+}
+function settleWheel(id) { // parent override: the wheel follows the re-validated spoke, without a spin
+  const rotor = $('#wheelRotor'); if (!rotor) return;
+  cancelSpin();
+  document.querySelectorAll('.wedge').forEach(g => g.classList.toggle('landed', g.dataset.id === id));
+  rotor.style.transform = `rotate(${finalAngleFor(id)}deg)`;
+  selectSpoke(id);
+  setWheelChip(`Validated result — ${spokeName(id)} · parent override, re-validated`, 'validated');
+}
+function resetWheelIllustrative() {
+  cancelSpin();
+  const rotor = $('#wheelRotor'); if (rotor) rotor.style.transform = 'rotate(0deg)';
+  document.querySelectorAll('.wedge').forEach(g => g.classList.remove('landed'));
+  selectSpoke('spoke-emotional');
+  setWheelChip('Illustrative example — Emotional is highlighted so you can explore the Wheel. This is not an AI result.', 'illustrative');
+}
+
+/* --- D2: guided rail — mirrors the real outputs of the last run --- */
+function updateRail(r) {
+  document.querySelectorAll('#demoRail .rstep').forEach(li => li.classList.add('done'));
+  const prop = $('#railProposal'), val = $('#railValidation'), scr = $('#railScript');
+  if (r.outcome === 'STOP') {
+    prop.innerHTML = '<p>The model was never called. Deterministic screening stopped this run before any AI step — <b>0 model calls</b>.</p>';
+    val.innerHTML = '<p>There is no proposal to validate: a safety or scope stop ends the run at step 3.</p>';
+    scr.innerHTML = '<p>No script is offered. The approved safety wording in the result below is the whole response.</p>';
+  } else if (r.outcome === 'NEEDS-MODEL') {
+    prop.innerHTML = '<p>No proposal exists for free text in this demo — the AI step is never called here. The deterministic layers around it ran for real:</p>';
+    const m = (r.trace || []).find(t => /Local script matching/.test(t.step));
+    val.innerHTML = `<p>${m ? m.detail : 'Screening and local matching ran — see the trace.'}</p>`;
+    scr.innerHTML = '<p>Guidance waits for a validated classification. Pick a prepared scenario above to see the full path, script included.</p>';
+  } else {
+    prop.innerHTML = `<p><span class="chip">${r.label || ''}</span> ${r.label === 'RECORDED LIVE' ? 'Recorded live Oct 26, 2026 · Muse Spark 1.3 Standard. ' : ''}Source: ${r.proposalSource}. Proposed spoke: <b>${r.proposal ? spokeName(r.proposal.spoke_id) : '—'}</b>.</p>`;
+    const v = (r.trace || []).find(t => /validation/i.test(t.step));
+    val.innerHTML = `<p>${v ? v.detail : 'Validation ran as part of the trace below.'}</p>`;
+    if (r.outcome === 'GUIDANCE' && r.script) {
+      scr.innerHTML = `<blockquote>&ldquo;${r.script.what_to_say}&rdquo;</blockquote><p>Script #${r.script.number} — selected locally by rule <b>${(r.match && r.match.rule_ids ? r.match.rule_ids : []).join(', ')}</b>. The model never selects script text and never sees it; the wheel above has settled on the spoke this run validated.</p>`;
+    } else {
+      scr.innerHTML = `<p>${r.reason === 'ambiguous-script-match' ? 'No script is forced: two approved scripts match different signals, so the Lab stops and lets the parent choose the focus on the Wheel first.' : r.reason === 'validation-failed' ? 'No script: the proposal failed validation and was rejected in full. Nothing was shown as guidance.' : 'No script: no approved Appendix B script matches this situation, and the Lab will not invent one.'}</p>`;
+    }
+  }
+  $('#railTrace').innerHTML = traceHtml(r.trace || []);
+}
+
+function renderJourneyChips() {  const explored = new Set(['spoke-learning', 'spoke-social', 'spoke-physical', 'spoke-communication', 'spoke-emotional']);
   $('#journeyChips').innerHTML = FW.wheel.map(w => `<span class="jchip ${explored.has(w.id) ? 'explored' : 'unexplored'}">${w.display_name}${explored.has(w.id) ? '' : ' · not yet'}</span>`).join('');
 }
 
@@ -306,6 +453,8 @@ async function load() {
   $('#ack').textContent = CONTENT.acknowledgment;
   $('#prov').textContent = 'Provenance — Framework: ' + CONTENT.provenance.framework_sha256.slice(0,12) + '… · Scripts: ' + CONTENT.provenance.scripts_sha256.slice(0,12) + '… · Safety copy: ' + CONTENT.provenance.safety_sha256.slice(0,12) + '… (full hashes in PROVENANCE.md)';
   $('#presets').innerHTML = CONTENT.presets.map(p => `<button class="preset" data-id="${p.id}"><b>${p.title}</b><small>${p.tag}</small><small>${p.text}</small></button>`).join('');
+  const at1 = CONTENT.presets.find(p => p.id === 'at1');
+  if (at1) $('#railScenario').textContent = at1.text;
   document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => run({ presetId: b.dataset.id })));
   document.querySelectorAll('[data-run-preset]').forEach(b => b.addEventListener('click', () => {
     const target = document.querySelector(`.preset[data-id="${b.dataset.runPreset}"]`);
@@ -331,10 +480,12 @@ function render(r) {
       ${s.classLine ? `<p><b>${s.classLine}</b></p>` : ''}<p>${s.text || s.body || ''}</p>
       ${s.resources ? '<ul>' + s.resources.map(x => `<li>${x}</li>`).join('') + '</ul>' : ''}
       <p class="attr">The guidance stops here. A safety stop cannot be confirmed away, retried around, or overridden.</p></div>` + traceHtml(r.trace);
+    updateRail(r); resetWheelIllustrative();
     return;
   }
   if (r.outcome === 'NEEDS-MODEL') {
     el.innerHTML = `<div class="outcome fallback"><h3>Deterministic layers ran — classification needs the live model</h3><p>Your fictional text passed screening and local matching (see the trace). The AI interpretation step is not called in this demo.</p></div>` + traceHtml(r.trace);
+    updateRail(r); resetWheelIllustrative();
     return;
   }
   const cls = r.outcome === 'GUIDANCE' ? 'guidance' : 'fallback';
@@ -365,7 +516,11 @@ function render(r) {
   if (ob) ob.addEventListener('click', async () => {
     const out = await (await fetch('/api/override', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ proposal: lastRun.proposal, spoke_id: $('#overrideSel').value }) })).json();
     $('#overrideOut').textContent = out.ok ? `Override accepted and re-validated: spoke is now ${spokeName(out.proposal.spoke_id)}. The matched script and its words do not change.` : 'Override rejected: ' + out.errors.join('; ');
+    if (out.ok) settleWheel(out.proposal.spoke_id);
   });
+  updateRail(r);
+  if (r.outcome === 'GUIDANCE' && r.proposal) landOnSpoke(r.proposal.spoke_id, r.label);
+  else resetWheelIllustrative();
 }
 async function run(body) {
   const r = await (await fetch('/api/run', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) })).json();
@@ -373,6 +528,8 @@ async function run(body) {
   render(r);
 }
 $('#runFree').addEventListener('click', () => run({ text: $('#freeText').value, age: Number($('#freeAge').value) }));
+$('#railRunAt1').addEventListener('click', () => run({ presetId: 'at1' }));
+$('#skipAnim').addEventListener('click', skipAnimation);
 renderWheel();
 renderCycle();
 renderJourneyChips();
