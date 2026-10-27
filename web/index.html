@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Childhood Confidence Learning Lab — Interactive Demo</title>
+<style>
+  :root { --ink:#1d2733; --paper:#faf7f0; --card:#ffffff; --line:#ddd5c4; --accent:#b4552d; --good:#1e7a46; --warn:#9a6a00; --stop:#a71d1d; --chip:#eef2f5; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:var(--paper); color:var(--ink); line-height:1.45; }
+  header, main, footer { max-width: 1060px; margin: 0 auto; padding: 0 18px; }
+  header { padding-top: 26px; }
+  h1 { font-size: 30px; margin: 0 0 4px; }
+  h2 { font-size: 21px; margin: 26px 0 10px; }
+  h3 { font-size: 16px; margin: 0 0 6px; }
+  .sub { color:#4c5a68; margin: 0 0 10px; }
+  .banner { background:#fff3d6; border:1px solid #e3c86e; border-radius:10px; padding:10px 14px; font-size:14px; }
+  .badge { display:inline-block; background:#fdecec; border:1px solid #e5a3a3; color:var(--stop); border-radius:999px; padding:2px 10px; font-size:12px; margin-left:8px; vertical-align: middle; }
+  .strip { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0 4px; }
+  .strip .card, .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .grid8 { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .spoke { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 12px; }
+  .spoke b { display:block; font-size:15px; }
+  .spoke i { color:var(--accent); font-size:13px; }
+  .spoke p { margin:6px 0 0; font-size:13px; color:#43536a; }
+  .cycle { display:flex; flex-wrap:wrap; gap:6px; align-items:stretch; }
+  .stage { background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:5px 12px; font-size:13px; }
+  .arrow { align-self:center; color:#8b98a5; }
+  .presets { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .preset { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; cursor:pointer; font:inherit; }
+  .preset:hover, .preset:focus { border-color:var(--accent); outline:none; }
+  .preset small { display:block; color:#68788a; margin-top:3px; }
+  textarea { width:100%; min-height:64px; font:inherit; padding:10px; border:1px solid var(--line); border-radius:10px; }
+  input[type=number] { width:80px; font:inherit; padding:6px; border:1px solid var(--line); border-radius:8px; }
+  button.run, button.act { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:10px 18px; font:inherit; cursor:pointer; }
+  button.ghost { background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:9px 14px; font:inherit; cursor:pointer; }
+  select { font:inherit; padding:7px; border-radius:8px; border:1px solid var(--line); }
+  .outcome { border-radius:12px; padding:14px 16px; margin-top:14px; border:1px solid var(--line); background:var(--card); }
+  .outcome.guidance { border-left:6px solid var(--good); }
+  .outcome.fallback { border-left:6px solid var(--warn); }
+  .outcome.stop { border-left:6px solid var(--stop); background:#fff7f7; }
+  .chip { display:inline-block; background:var(--chip); border-radius:999px; padding:1px 9px; font-size:12px; margin-left:6px; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
+  pre { white-space:pre-wrap; font-size:13px; background:#f6f8f9; border-radius:8px; padding:10px; margin:6px 0 0; }
+  .script blockquote { font-size:17px; margin:8px 0; }
+  .attr { font-size:12.5px; color:#68788a; }
+  ol.trace { padding-left:20px; }
+  ol.trace li { margin-bottom:8px; }
+  .st { font-size:11px; border-radius:999px; padding:1px 8px; margin-left:6px; background:var(--chip); }
+  .st.pass { background:#e2f2e8; } .st.fail, .st.stop { background:#fbe3e3; } .st.info { background:#fdf3d8; }
+  footer { padding:26px 18px 40px; font-size:13px; color:#4c5a68; }
+  .hidden { display:none; }
+  @media (max-width:760px){ .grid8{grid-template-columns:repeat(2,1fr)} .strip,.cols,.presets{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header>
+  <h1>The Childhood Confidence Learning Lab</h1>
+  <p class="sub">An AI that shows its work, stays inside a human-authored framework, and refuses when it should. Built by <b>Albert Tumblin III</b>, author of <i>Create Childhood Confidence</i>, for the Meta Global AI Developer Hackathon.</p>
+  <div class="banner"><b>FICTIONAL DEMO.</b> Every scenario here is invented. No real child or parent information is used, collected, or stored. In this local demo the AI step runs on recorded or mock responses — the safety screening, validation, and script selection you see are the real, deterministic system.<span class="badge" id="badge"></span></div>
+  <div class="strip">
+    <div class="card"><h3>1 · The Wheel — WHAT</h3>The Confidence Wheel diagnoses which kind of confidence is wobbly right now. Eight spokes, one focus at a time.</div>
+    <div class="card"><h3>2 · The Cycle — HOW</h3>The Confidence Cycle is how confidence is built: connection, a brave attempt, struggle met with support, a small win — repeated.</div>
+    <div class="card"><h3>3 · The Script — WORDS</h3>A matched, parent-approved script from the book's Appendix B — shown word for word, never rewritten by the AI.</div>
+  </div>
+</header>
+<main>
+  <h2>The Confidence Wheel — pick the wobbly spoke</h2>
+  <div class="grid8" id="wheel"></div>
+  <h2>The Confidence Cycle — how a rep is built</h2>
+  <div class="cycle" id="cycle"></div>
+
+  <h2>Try a fictional scenario</h2>
+  <div class="presets" id="presets"></div>
+  <div class="card" style="margin-top:12px">
+    <h3>…or write your own fictional scenario</h3>
+    <p class="sub">The real safety screening and local script matching run on your text. The AI classification step needs the live model, so free text shows the deterministic layers only.</p>
+    <label for="freeText">Fictional scenario</label>
+    <textarea id="freeText" placeholder="e.g. My 8-year-old said &quot;I can't do it&quot; and pushed the worksheet away."></textarea>
+    <label for="freeAge">Child's age (demo range 7–9)</label>
+    <input type="number" id="freeAge" value="8" min="1" max="17">
+    <button class="run" id="runFree">Run the deterministic checks</button>
+  </div>
+
+  <section id="results" aria-live="polite"></section>
+</main>
+<footer>
+  <p id="ack"></p>
+  <p id="prov" class="attr"></p>
+  <p>Privacy: this demo runs entirely on this machine. Nothing you type is sent anywhere or stored. The AI model, when authorized separately, receives only the fictional scenario text and framework identifiers — never scripts, never real family information.</p>
+</footer>
+<script>
+const $ = (s) => document.querySelector(s);
+let CONTENT = null, lastRun = null;
+const spokeName = (id) => (CONTENT.wheel.find(w => w.id === id) || {}).display_name || id;
+const stageName = (id) => (CONTENT.cycle.find(s => s.id === id) || {}).name || id;
+
+async function load() {
+  CONTENT = await (await fetch('/api/content')).json();
+  $('#badge').textContent = CONTENT.badge;
+  $('#ack').textContent = CONTENT.acknowledgment;
+  $('#prov').textContent = 'Provenance — Framework: ' + CONTENT.provenance.framework_sha256.slice(0,12) + '… · Scripts: ' + CONTENT.provenance.scripts_sha256.slice(0,12) + '… · Safety copy: ' + CONTENT.provenance.safety_sha256.slice(0,12) + '… (full hashes in PROVENANCE.md)';
+  $('#wheel').innerHTML = CONTENT.wheel.map(w => `<div class="spoke"><b>${w.display_name}</b><i>“${w.child_statement}”</i><p>${w.descriptor}</p></div>`).join('');
+  $('#cycle').innerHTML = CONTENT.cycle.map((s,i) => `${i?'<span class="arrow">→</span>':''}<span class="stage" title="${s.definition.replace(/"/g,'&quot;')}">${s.order}. ${s.name}</span>`).join('');
+  $('#presets').innerHTML = CONTENT.presets.map(p => `<button class="preset" data-id="${p.id}"><b>${p.title}</b><small>${p.tag}</small><small>${p.text}</small></button>`).join('');
+  document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => run({ presetId: b.dataset.id })));
+}
+function proposalHtml(p) {
+  if (!p) return '<p>No proposal — the model was never called.</p>';
+  return `<pre>Spoke: ${spokeName(p.spoke_id)} (${p.spoke_id})
+Cycle stages: ${p.stage_ids.map(stageName).join(' → ')}
+Stuck point: ${p.stuck_point_anchor || 'none'} (a lens at Struggle → Support, never a stage)
+Rationale codes: ${(p.rationale_codes||[]).join(', ') || '—'}</pre>`;
+}
+function traceHtml(trace) {
+  return `<h3>Evidence trace</h3><ol class="trace">${trace.map(t => `<li><b>${t.step}</b><span class="st ${t.status}">${t.status}</span><br>${t.detail}</li>`).join('')}</ol>`;
+}
+function render(r) {
+  lastRun = r;
+  const el = $('#results');
+  if (r.outcome === 'STOP') {
+    const s = r.stop;
+    el.innerHTML = `<div class="outcome stop"><h3>${s.heading || 'Safety stop'}</h3><span class="badge">${s.badge}</span>
+      ${s.classLine ? `<p><b>${s.classLine}</b></p>` : ''}<p>${s.text || s.body || ''}</p>
+      ${s.resources ? '<ul>' + s.resources.map(x => `<li>${x}</li>`).join('') + '</ul>' : ''}
+      <p class="attr">The guidance stops here. A safety stop cannot be confirmed away, retried around, or overridden.</p></div>` + traceHtml(r.trace);
+    return;
+  }
+  if (r.outcome === 'NEEDS-MODEL') {
+    el.innerHTML = `<div class="outcome fallback"><h3>Deterministic layers ran — classification needs the live model</h3><p>Your fictional text passed screening and local matching (see the trace). The AI interpretation step is not called in this demo.</p></div>` + traceHtml(r.trace);
+    return;
+  }
+  const cls = r.outcome === 'GUIDANCE' ? 'guidance' : 'fallback';
+  const title = r.outcome === 'GUIDANCE' ? 'Guidance — an approved script, chosen locally' : (r.reason === 'ambiguous-script-match' ? 'Fallback — the signals point two ways' : r.reason === 'validation-failed' ? 'Fallback — the AI\'s answer failed validation' : 'Fallback — no approved script matches');
+  let html = `<div class="outcome ${cls}"><h3>${title}<span class="chip">${r.label || ''}</span></h3>
+    <div class="cols">
+      <div class="card"><h3>What the AI proposed</h3><p class="attr">Source: ${r.proposalSource}</p>${proposalHtml(r.proposal)}</div>
+      <div class="card"><h3>What the system checked</h3><p>Every identifier was validated against the published framework. A label of <b>LIVE</b> (or recorded live) means a real model response; <b>MOCK</b> is a demo stand-in. Invalid proposals are rejected, never repaired.</p>
+      ${r.match ? `<p>Local match: <b>Script #${r.match.script_number}</b> via rule <b>${r.match.rule_ids.join(', ')}</b>.</p>` : ''}</div>
+    </div>`;
+  if (r.outcome === 'GUIDANCE' && r.script) {
+    html += `<div class="card script" style="margin-top:12px"><h3>Your script — ${r.script.situation}</h3>
+      <p class="attr">What to say</p><blockquote>${r.script.what_to_say}</blockquote>
+      <p class="attr">What not to say</p><p>${r.script.what_not_to_say}</p>
+      <p class="attr">One action</p><p><b>${r.script.one_action}</b></p>
+      <p class="attr">Source: ${r.script.source_reference} — pre-existing published book content, selected locally word-for-word. The AI never sees this text.</p>
+      <div id="confirmRow"><button class="act" id="confirmBtn">This fits — confirm</button>
+      <label>…or override the spoke: <select id="overrideSel">${CONTENT.wheel.map(w => `<option value="${w.id}">${w.display_name}</option>`).join('')}</select></label>
+      <button class="ghost" id="overrideBtn">Apply override</button><p id="overrideOut" class="attr"></p></div></div>`;
+  } else {
+    html += `<div class="card" style="margin-top:12px"><h3>Why no script?</h3><p>${r.reason === 'ambiguous-script-match' ? 'Two approved scripts match different parts of this scenario (scripts ' + (r.candidates||[]).join(' and ') + '). Rather than guess, the Lab stops and lets the parent choose the focus on the Wheel first.' : r.reason === 'validation-failed' ? 'The AI proposed something outside the published framework, so it was rejected in full. Nothing was shown as guidance.' : 'No approved Appendix B script matches this situation. The Lab says so honestly instead of inventing one — the parent picks the wobbly spoke on the Wheel and works the Cycle from there.'}</p></div>`;
+  }
+  html += traceHtml(r.trace) + `<p class="attr">Budget safeguard: $${(r.budget.committed_usd).toFixed(4)} committed of the $${r.budget.ceiling_usd} application-side hard stop (demo runs use mocked usage).</p></div>`;
+  el.innerHTML = html;
+  const cb = $('#confirmBtn');
+  if (cb) cb.addEventListener('click', () => { cb.textContent = 'Confirmed ✓ — interpretation locked for this run'; cb.disabled = true; });
+  const ob = $('#overrideBtn');
+  if (ob) ob.addEventListener('click', async () => {
+    const out = await (await fetch('/api/override', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ proposal: lastRun.proposal, spoke_id: $('#overrideSel').value }) })).json();
+    $('#overrideOut').textContent = out.ok ? `Override accepted and re-validated: spoke is now ${spokeName(out.proposal.spoke_id)}. The matched script and its words do not change.` : 'Override rejected: ' + out.errors.join('; ');
+  });
+}
+async function run(body) {
+  const r = await (await fetch('/api/run', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) })).json();
+  if (r.error) { $('#results').innerHTML = '<div class="outcome fallback">' + r.error + '</div>'; return; }
+  render(r);
+}
+$('#runFree').addEventListener('click', () => run({ text: $('#freeText').value, age: Number($('#freeAge').value) }));
+load().then(() => {
+  // Deep-linkable demo states, e.g. ?run=at1 (used for the demo video and
+  // screenshot evidence): auto-run the named preset on load.
+  const preset = new URLSearchParams(location.search).get('run');
+  if (preset) run({ presetId: preset });
+});
+</script>
+</body>
+</html>

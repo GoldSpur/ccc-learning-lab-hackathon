@@ -8,6 +8,10 @@ A framework-constrained AI prototype built during the **Meta Global AI Developer
 
 **Privacy & data minimization:** API requests carry only the fictional scenario text and the minimum canonical identifiers/definitions required for classification. Full scripts, complete framework materials, and validator logic never leave this application's environment. No real child or parent information is ever sent to the API. Development usage is funded by Meta promotional hackathon credits; Meta's billing disclosure for credit-funded use is recorded in PROVENANCE.md.
 
-**Status:** B1 — foundation: content modules, deterministic validator, safety screening, model gateway with application-side budget safeguard, mocked test suite. No live API calls yet.
+**Status:** B2 — judge-facing demo. B1 foundation (content modules, deterministic validator, safety screening, gateway with application-side budget safeguard) plus deterministic local script matching and the interactive Learning Lab in `web/`. Three authorized one-call live smoke tests were run on Oct 26, 2026 (aggregate spend $0.0082 of the $120 ceiling); the canonical AT1 proposal from the successful live call is recorded in `web/app.mjs` and replayed in the demo, labeled RECORDED LIVE. All other demo runs use labeled mock proposals.
+
+**Run the demo locally:** `node web/server.mjs` → http://127.0.0.1:8377 (mocked/recorded transports only; the demo server has no live-model path). Deep-link a preset with `?run=at1`, `?run=safety-test`, etc.
+
+**Tests:** `node --test tests/*.test.js` — 73 mocked tests.
 
 See **PROVENANCE.md** for what is pre-existing (labeled, with hashes) versus built during the event.
