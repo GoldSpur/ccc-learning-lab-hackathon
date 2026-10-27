@@ -7,6 +7,7 @@ import { screenScenario } from './screening.js';
 import { callModel } from './gateway.js';
 import { validateProposal } from './validator.js';
 import { getScript } from './content.js';
+import { matchScript } from './matcher.js';
 
 export async function runScenario(input, { transport, ledger, session } = {}) {
   const stop = screenScenario(input);
@@ -19,12 +20,27 @@ export async function runScenario(input, { transport, ledger, session } = {}) {
   if (!verdict.ok) {
     return { outcome: 'FALLBACK', reason: 'validation-failed', errors: verdict.errors };
   }
-  if (res.proposal.script_number === null || res.proposal.script_number === undefined) {
+  // Script selection is LOCAL and deterministic (Founder decision, Oct 26
+  // 2026): the model never sees the scripts or their situations, so its
+  // script_number is validated for schema but never selects. The matcher
+  // reads the scenario text alone; ambiguous or unmatched situations fall
+  // back honestly instead of forcing a script.
+  const match = matchScript(input.text);
+  if (match.status === 'ambiguous') {
+    return { outcome: 'FALLBACK', reason: 'ambiguous-script-match', candidates: match.candidates, proposal: res.proposal, label: res.mode };
+  }
+  if (match.status !== 'matched') {
     return { outcome: 'FALLBACK', reason: 'no-script-match', proposal: res.proposal, label: res.mode };
   }
-  const script = getScript(res.proposal.script_number);
+  const script = getScript(match.script_number);
   if (!script) return { outcome: 'FALLBACK', reason: 'no-script-match', proposal: res.proposal, label: res.mode };
-  return { outcome: 'GUIDANCE', label: res.mode, proposal: res.proposal, script };
+  return {
+    outcome: 'GUIDANCE',
+    label: res.mode,
+    proposal: res.proposal,
+    script,
+    match: { script_number: match.script_number, rule_ids: match.rule_ids, tier: match.tier },
+  };
 }
 
 // Parent override (Charter H2): the parent may replace the proposed spoke
