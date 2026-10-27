@@ -1,0 +1,84 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-10-27T07:48:37.741Z",
+  "source": {
+    "file": "cge-001-phase0/src/scenarios.js",
+    "fileSha256": "6761ca7063a62bdb805baced79f875eb1c0f8606afb4e1bafd79f9315250a888",
+    "note": "Scenario texts hashed exactly as exported by the source file (UTF-8, no additional normalization). The source file itself is frozen Phase 0 evidence and is never modified by this tooling."
+  },
+  "hashAlgorithm": "SHA-256 over the exact scenario `text` string (UTF-8)",
+  "entries": [
+    {
+      "id": "S-01",
+      "textSha256": "f729497db3e78db336bcbcf85c9283672f22cf0c4fe40e77a2ab736af5c29831"
+    },
+    {
+      "id": "S-02",
+      "textSha256": "1f8d28dd876b2e71e2425011c7056ea2bd31c5292e86787e65e6da67c1853d2d"
+    },
+    {
+      "id": "S-03",
+      "textSha256": "a19c336a670a4f3e3a1d3bd7493011bbd59a34f9f175e8245c994503228f28b5"
+    },
+    {
+      "id": "S-04",
+      "textSha256": "456f82deba48e6664f88e952e8b9861189ec674f8aa7d1ad5d0c9ff078d25f53"
+    },
+    {
+      "id": "V-01",
+      "textSha256": "f729497db3e78db336bcbcf85c9283672f22cf0c4fe40e77a2ab736af5c29831"
+    },
+    {
+      "id": "V-02",
+      "textSha256": "f729497db3e78db336bcbcf85c9283672f22cf0c4fe40e77a2ab736af5c29831"
+    },
+    {
+      "id": "V-03",
+      "textSha256": "f729497db3e78db336bcbcf85c9283672f22cf0c4fe40e77a2ab736af5c29831"
+    },
+    {
+      "id": "O-01",
+      "textSha256": "1f8d28dd876b2e71e2425011c7056ea2bd31c5292e86787e65e6da67c1853d2d"
+    },
+    {
+      "id": "F-01",
+      "textSha256": "44f2da52569f31ce6413d055b98b8681af791ddba84995324c0e827c17a11463"
+    },
+    {
+      "id": "F-02",
+      "textSha256": "f729497db3e78db336bcbcf85c9283672f22cf0c4fe40e77a2ab736af5c29831"
+    },
+    {
+      "id": "D-01",
+      "textSha256": "469128be43ddf66b46bdf8c01bf90a10ba2748f3a0dc644132bb8849aec17e15"
+    },
+    {
+      "id": "D-02",
+      "textSha256": "c3061806a378623500698bbc9433344ce3399158b6441ca197f6075f8fff8e09"
+    },
+    {
+      "id": "D-03",
+      "textSha256": "10f88d0b78cf9124f7e32356ef2054ff400b3ea61e85e498f8ca2c0066ef3f06"
+    },
+    {
+      "id": "D-04",
+      "textSha256": "bf3426ec52f1b6796d421a71250be4dfa12127060838a4dcdbfcef6132043515"
+    },
+    {
+      "id": "A-01",
+      "textSha256": "b492c57ae5c3b3dc0edd764f6cb2d26b406e195d5361bdd4efd1a019bf252c02"
+    },
+    {
+      "id": "C-01",
+      "textSha256": "eb64dd6274a5f52a77868503faefe40d8875b95c86921e5fb47cd01c8d317c8b"
+    },
+    {
+      "id": "X-01",
+      "textSha256": "1d387f7c3b2a5f9f71ff2aa2d13b0a8d98bf6abc9c58e346446ed1ab82ffa572"
+    },
+    {
+      "id": "X-02",
+      "textSha256": "e61422579eaab4a46483abf7a807fc64e1f010a94e8b3e5ba1248f03281ff661"
+    }
+  ]
+}

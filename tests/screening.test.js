@@ -18,7 +18,7 @@ test('D-02 abuse indicators -> A1 abuse stop', () => {
   assert.deepEqual(stop.resources, safetyCopy.a1.resources);
 });
 
-test('D-03 immediate danger -> A1 danger stop', () => {
+test('existing coverage: swallowed coin -> A1 danger stop', () => {
   const stop = screenScenario({ text: 'She swallowed a coin at lunch today.', age: 8 });
   assert.equal(stop.kind, 'A1');
   assert.equal(stop.classLine, safetyCopy.a1.classes.danger);

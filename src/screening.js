@@ -12,7 +12,7 @@ const PATTERNS = {
   // Direct self-harm / suicide disclosure -> B1
   selfHarm: /\b(suicid\w*|kill (him|her|them)self|hurting (him|her|them)self|hurt (him|her|them)self|self[- ]harm\w*|wants to die|end (his|her|their) life)\b/i,
   // Possible immediate danger -> A1 (danger)
-  danger: /\b(choking|swallowed (a )?(coin|battery|pill|magnet)|bleeding|broken (arm|leg|bone)|left alone (near|by|at) (the )?(pool|street|road)|wandering (off|away) (at night|alone))\b/i,
+  danger: /\b(choking|swallowed (a )?(coin|battery|pill|magnet)|bleeding|broken (arm|leg|bone)|left alone (near|by|at) (the )?(pool|street|road)|wandering (off|away) (at night|alone)|(ran|runs|running|run|darted|darting|darts|dart|bolted|bolting|bolts|bolt|raced|racing|rushed|rushing|chased|chases|chasing|rode|rides|riding)\b[^.]{0,24}?\binto (the )?(middle of the )?(street|road|traffic)|(ran|runs|running|darted|darting|dart|bolted|bolting|bolt) across (the )?(street|road) without looking|play\w* (in|on) (the )?(street|road))\b/i,
   // Possible abuse / harm from another person -> A1 (abuse)
   abuse: /\b(hits? him|hits? her|beating (him|her)|bruises? (on|all over)|afraid of (his|her|their) (dad|mom|stepdad|stepmom|uncle|teacher|babysitter)|touches? (him|her) (inappropriately|in private))\b/i,
   // Serious emotional distress -> A1 (distress)
