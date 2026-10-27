@@ -11,7 +11,15 @@ import { framework } from './content.js';
 import { LedgerError, actualNano, estimateWorstNano } from './ledger.js';
 
 export const MODEL_ID = 'muse-spark-1.3'; // Standard. Contributor is prohibited.
-export const MAX_OUTPUT_TOKENS = 400;
+// Reasoning-budget correction (Founder-approved Oct 26, 2026): Muse Spark's
+// reasoning is always on, reasoning tokens bill as output and count against
+// the output cap, and on Chat Completions a reasoning-consumed budget returns
+// content null with finish_reason "length" — exactly what both smoke calls
+// showed at the old 400 cap (314 in / 400 out, no content). The effort is
+// pinned low (also the Gate B design's safeguard) and the cap raised so the
+// bounded classification answer fits after reasoning.
+export const REASONING_EFFORT = 'low';
+export const MAX_OUTPUT_TOKENS = 2048;
 
 // Minimal classification context: spoke ids with name + child statement,
 // stage ids with names, script NUMBERS only (never script content).
@@ -29,7 +37,10 @@ export function buildPayload(scenarioText) {
   ].join('\n');
   return {
     model: MODEL_ID,
-    max_output_tokens: MAX_OUTPUT_TOKENS,
+    // Canonical Chat Completions cap field (Meta accepts max_tokens only as
+    // a deprecated alias for max_completion_tokens).
+    max_completion_tokens: MAX_OUTPUT_TOKENS,
+    reasoning_effort: REASONING_EFFORT,
     messages: [
       { role: 'system', content: system },
       { role: 'user', content: String(scenarioText) },

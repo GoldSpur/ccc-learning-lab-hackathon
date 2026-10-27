@@ -30,27 +30,30 @@ export function extractContent(envelope) {
   }
   const choice = Array.isArray(envelope.choices) ? envelope.choices[0] : undefined;
   const content = choice?.message?.content;
-  if (typeof content !== 'string') {
-    return { ok: false, stage: 'envelope', error: 'content-missing-or-not-a-string' };
-  }
-  return {
-    ok: true,
-    content,
-    shape: {
-      content_chars: content.length,
-      finish_reason: choice?.finish_reason ?? null,
-      model: typeof envelope.model === 'string' ? envelope.model : null,
-    },
+  // Shape-only diagnostics are preserved on failure too (Founder direction,
+  // Oct 26 2026): a reasoning-exhausted reply (content null, finish_reason
+  // "length") must be diagnosable from the failure record alone.
+  const shape = {
+    finish_reason: choice?.finish_reason ?? null,
+    model: typeof envelope.model === 'string' ? envelope.model : null,
+    content_type: content === null ? 'null' : Array.isArray(content) ? 'array' : typeof content,
   };
+  if (typeof content !== 'string') {
+    return { ok: false, stage: 'envelope', error: 'content-missing-or-not-a-string', shape };
+  }
+  return { ok: true, content, shape: { ...shape, content_chars: content.length } };
 }
 
-// Map a Chat Completions usage block to the ledger's usage shape.
+// Map a Chat Completions usage block to the ledger's usage shape, carrying
+// the reasoning-token count when the API reports it (diagnostics only; the
+// ledger prices total output, reasoning included, as documented).
 export function mapUsage(envelope) {
   const u = (envelope && typeof envelope === 'object' && envelope.usage) || {};
   return {
     input_tokens: u.prompt_tokens ?? 0,
     output_tokens: u.completion_tokens ?? 0,
     cached_input_tokens: u.prompt_tokens_details?.cached_tokens ?? 0,
+    reasoning_tokens: u.completion_tokens_details?.reasoning_tokens ?? null,
   };
 }
 

@@ -107,11 +107,36 @@ test('envelope carrying an HTTP status is an envelope failure', () => {
   assert.equal(env.error, 'http-500');
 });
 
-test('usage mapping feeds the ledger shape (incl. cached tokens)', () => {
+test('usage mapping feeds the ledger shape (incl. cached + reasoning tokens)', () => {
   assert.deepEqual(mapUsage(envelope(GOOD_TEXT)), {
     input_tokens: 900,
     output_tokens: 120,
     cached_input_tokens: 300,
+    reasoning_tokens: null,
   });
-  assert.deepEqual(mapUsage({}), { input_tokens: 0, output_tokens: 0, cached_input_tokens: 0 });
+  assert.deepEqual(mapUsage({}), {
+    input_tokens: 0, output_tokens: 0, cached_input_tokens: 0, reasoning_tokens: null,
+  });
+  const withReasoning = {
+    usage: {
+      prompt_tokens: 314, completion_tokens: 400,
+      completion_tokens_details: { reasoning_tokens: 388 },
+    },
+  };
+  assert.equal(mapUsage(withReasoning).reasoning_tokens, 388);
+});
+
+test('reasoning-exhausted envelope: failure keeps finish_reason + shape diagnostics', () => {
+  // The exact shape both smoke calls produced: reasoning consumed the whole
+  // output budget, content came back null, finish_reason "length".
+  const exhausted = {
+    model: 'muse-spark-1.3',
+    choices: [{ finish_reason: 'length', message: { role: 'assistant', content: null } }],
+    usage: { prompt_tokens: 314, completion_tokens: 400 },
+  };
+  const env = extractContent(exhausted);
+  assert.equal(env.ok, false);
+  assert.equal(env.stage, 'envelope');
+  assert.equal(env.shape.finish_reason, 'length');
+  assert.equal(env.shape.content_type, 'null');
 });
