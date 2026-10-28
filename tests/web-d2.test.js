@@ -48,12 +48,18 @@ test('d2: rail runs the existing AT1 preset and carries its recorded-live proven
   assert.ok(html.includes("CONTENT.presets.find(p => p.id === 'at1')"), 'rail scenario text is filled from the preset itself, unchanged');
   const at = markup.indexOf('RECORDED LIVE');
   assert.ok(at > 0, 'rail names the recorded label');
-  assert.ok(markup.slice(Math.max(0, at - 160), at).includes('AT1'), 'RECORDED LIVE in the rail is tied to AT1');
+  assert.ok(markup.slice(Math.max(0, at - 160), at).includes('this scenario'), 'RECORDED LIVE in the rail is tied to the guided scenario');
   assert.ok(html.includes('Recorded live Oct 26, 2026 · Muse Spark 1.3 Standard'), 'rail carries the recorded date and source');
 });
 
 test('d2: RECORDED LIVE is assigned only to AT1 in the demo logic', () => {
   assert.ok(app.includes("preset.id === 'at1' ? 'RECORDED LIVE' : 'MOCK'"), 'label assignment restricts RECORDED LIVE to at1');
+});
+
+test('d2: preset button title is parent-readable, scenario identity unchanged (B8)', () => {
+  assert.ok(app.includes(`"I\\'m stupid" — homework scenario`), 'preset title carries no internal scenario ID');
+  assert.ok(!app.includes('AT1'), 'no AT1 anywhere in the served app strings');
+  assert.ok(app.includes("id: 'at1'"), 'underlying preset id is unchanged');
 });
 
 test('d2: animation is gated on validated GUIDANCE outcomes only', () => {

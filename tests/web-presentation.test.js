@@ -68,7 +68,28 @@ test('presentation: labels legend defines LIVE, RECORDED LIVE, MOCK and FALLBACK
   for (const label of ['<b>LIVE</b>', '<b>RECORDED LIVE</b>', '<b>MOCK</b>', '<b>FALLBACK</b>']) {
     assert.ok(html.includes(label), `legend defines ${label}`);
   }
-  assert.ok(html.includes('Only the AT1 proposal carries this label'), 'RECORDED LIVE restricted to AT1');
+  assert.ok(html.includes('Only the proposal for the "I\'m stupid" homework scenario carries this label'), 'RECORDED LIVE restricted to the recorded scenario');
+});
+
+test('presentation: trace surface uses plain-language summaries; amounts and rule IDs live only in Full evidence', () => {
+  // A1/A5 surface summaries for the two affected step types.
+  assert.ok(html.includes('A local deterministic rule selected the approved script for this scenario. Script content never leaves this machine.'), 'A1 selection summary present');
+  assert.ok(html.includes('A local deterministic rule matched Script #'), 'A5 free-text match summary present');
+  assert.ok(html.includes('The budget safeguard accounted for this run against the application-side hard stop. (Demo accounting uses mocked usage.)'), 'A1 budget summary present');
+  // A2 footer carries no figures on the surface.
+  assert.ok(html.includes('Budget safeguard: this run was accounted against the application-side hard stop (demo runs use mocked usage).'), 'A2 footer summary present');
+  assert.ok(!html.includes('committed of the $'), 'no budget amounts in the surface footer');
+  // A3/A4 surfaces carry no rule ID.
+  assert.ok(html.includes('selected locally by a deterministic rule'), 'A3 rail script line is plain-language');
+  assert.ok(html.includes(', selected by a local deterministic rule.'), 'A4 result card line is plain-language');
+  assert.ok(!html.includes('selected locally by rule <b>'), 'no rule ID on the rail surface');
+  assert.ok(!html.includes('via rule <b>'), 'no rule ID on the result-card surface');
+  // The verbatim detail is preserved, rendered inside a per-step expander.
+  assert.ok(html.includes('<summary>Full evidence</summary>'), 'per-step Full evidence expander present');
+  assert.ok(html.includes('${t.detail}</details>'), 'the expander renders the untouched trace detail');
+  // No internal scenario IDs in the page copy (B1–B7).
+  assert.ok(!/\bAT1\b/.test(html), 'no AT1 scenario ID in page copy');
+  assert.ok(!html.includes('D-01'), 'no D-01 scenario ID in page copy');
 });
 
 test('presentation: boundaries gallery covers the four inspectable cases, safety stop at 0 model calls', () => {

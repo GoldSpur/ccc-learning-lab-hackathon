@@ -108,6 +108,8 @@
   .attr { font-size:12.5px; color:#68788a; }
   ol.trace { padding-left:20px; }
   ol.trace li { margin-bottom:8px; }
+  ol.trace details.ev { margin-top:3px; }
+  ol.trace details.ev summary { cursor:pointer; font-size:13.5px; font-weight:bold; }
   .st { font-size:11px; border-radius:999px; padding:1px 8px; margin-left:6px; background:var(--chip); }
   .st.pass { background:#e2f2e8; } .st.fail, .st.stop { background:#fbe3e3; } .st.info { background:#fdf3d8; }
   .hidden { display:none; }
@@ -231,7 +233,7 @@
   <section id="demonstration" aria-labelledby="demonstration-h">
     <h2 id="demonstration-h">Demonstration — try a fictional scenario</h2>
     <h3 style="margin-top:4px">The guided tour — seven steps, about three minutes</h3>
-    <p class="sub">New to the book? Follow the rail. It runs one fictional scenario — AT1 — through the whole governed system, using the real outputs that appear in the results below. Every other prepared scenario stays available under the rail.</p>
+    <p class="sub">New to the book? Follow the rail. It runs one fictional scenario — the "I'm stupid" homework scenario — through the whole governed system, using the real outputs that appear in the results below. Every other prepared scenario stays available under the rail.</p>
     <ol class="rail" id="demoRail">
       <li class="rstep" data-step="1" tabindex="0"><span class="n">1</span><div>
         <h3>Understand the framework</h3>
@@ -239,13 +241,13 @@
       </div></li>
       <li class="rstep" data-step="2" tabindex="0"><span class="n">2</span><div>
         <h3>Explore a fictional scenario</h3>
-        <p id="railScenario">Loading the AT1 scenario…</p>
-        <p><button class="run" id="railRunAt1" type="button">Run AT1</button></p>
+        <p id="railScenario">Loading the "I'm stupid" homework scenario…</p>
+        <p><button class="run" id="railRunAt1" type="button">Run the scenario</button></p>
       </div></li>
       <li class="rstep" data-step="3" tabindex="0"><span class="n">3</span><div>
         <h3>See the AI interpretation</h3>
-        <p>The AI reads the moment and proposes three things only: a spoke, Cycle stages, and a stuck-point anchor. Its answer for AT1 is a genuine recorded response — <b>RECORDED LIVE</b>, replayed verbatim, never re-run.</p>
-        <div id="railProposal"><p class="attr">Run AT1 (step 2) to see the recorded proposal here.</p></div>
+        <p>The AI reads the moment and proposes three things only: a spoke, Cycle stages, and a stuck-point anchor. Its answer for this scenario is a genuine recorded response — <b>RECORDED LIVE</b>, replayed verbatim, never re-run.</p>
+        <div id="railProposal"><p class="attr">Run the scenario (step 2) to see the recorded proposal here.</p></div>
       </div></li>
       <li class="rstep" data-step="4" tabindex="0"><span class="n">4</span><div>
         <h3>See independent validation</h3>
@@ -300,14 +302,14 @@
       </div>
       <div class="card bcard">
         <h3>Safety stop — the model is never called</h3>
-        <p>A fictional safety test (scenario D-01): a self-harm disclosure. Deterministic screening stops the run before any model call — <b>0 model calls</b> — and shows the approved safety wording. A safety stop cannot be confirmed away, retried around, or overridden.</p>
+        <p>A fictional safety test: a self-harm disclosure. Deterministic screening stops the run before any model call — <b>0 model calls</b> — and shows the approved safety wording. A safety stop cannot be confirmed away, retried around, or overridden.</p>
         <button class="ghost" data-run-preset="safety-test">Run the fictional safety test</button>
       </div>
     </div>
     <div class="card legend" style="margin-top:14px">
       <h3>How to read the labels</h3>
       <p><b>LIVE</b> — a real model response, produced in the moment. This demonstration never runs live.</p>
-      <p><b>RECORDED LIVE</b> — a genuine live model response, recorded earlier and replayed verbatim. Only the AT1 proposal carries this label (Muse Spark 1.3 Standard, recorded Oct 26, 2026).</p>
+      <p><b>RECORDED LIVE</b> — a genuine live model response, recorded earlier and replayed verbatim. Only the proposal for the "I'm stupid" homework scenario carries this label (Muse Spark 1.3 Standard, recorded Oct 26, 2026).</p>
       <p><b>MOCK</b> — a demo stand-in written for this page; it stands in for the live model so the deterministic system around it can be inspected.</p>
       <p><b>FALLBACK</b> — the system declined to offer a script: no match, an ambiguous match, or a rejected proposal. A fallback is an honest refusal, not an error.</p>
     </div>
@@ -480,14 +482,14 @@ function updateRail(r) {
   } else if (r.outcome === 'NEEDS-MODEL') {
     prop.innerHTML = '<p>No proposal exists for free text in this demo — the AI step is never called here. The deterministic layers around it ran for real:</p>';
     const m = (r.trace || []).find(t => /Local script matching/.test(t.step));
-    val.innerHTML = `<p>${m ? m.detail : 'Screening and local matching ran — see the trace.'}</p>`;
+    val.innerHTML = `<p>${m ? (traceSummary(m) || m.detail) : 'Screening and local matching ran — see the trace.'}</p>`;
     scr.innerHTML = '<p>Guidance waits for a validated classification. Pick a prepared scenario above to see the full path, script included.</p>';
   } else {
     prop.innerHTML = `<p><span class="chip">${r.label || ''}</span> ${r.label === 'RECORDED LIVE' ? 'Recorded live Oct 26, 2026 · Muse Spark 1.3 Standard. ' : ''}Source: ${r.proposalSource}. Proposed spoke: <b>${r.proposal ? spokeName(r.proposal.spoke_id) : '—'}</b>.</p>`;
     const v = (r.trace || []).find(t => /validation/i.test(t.step));
     val.innerHTML = `<p>${v ? v.detail : 'Validation ran as part of the trace below.'}</p>`;
     if (r.outcome === 'GUIDANCE' && r.script) {
-      scr.innerHTML = `<blockquote>&ldquo;${r.script.what_to_say}&rdquo;</blockquote><p>Script #${r.script.number} — selected locally by rule <b>${(r.match && r.match.rule_ids ? r.match.rule_ids : []).join(', ')}</b>. The model never selects script text and never sees it; the wheel above has settled on the spoke this run validated.</p>`;
+      scr.innerHTML = `<blockquote>&ldquo;${r.script.what_to_say}&rdquo;</blockquote><p>Script #${r.script.number} — selected locally by a deterministic rule. The model never selects script text and never sees it; the wheel above has settled on the spoke this run validated.</p>`;
     } else {
       scr.innerHTML = `<p>${r.reason === 'ambiguous-script-match' ? 'No script is forced: two approved scripts match different signals, so the Lab stops and lets the parent choose the focus on the Wheel first.' : r.reason === 'validation-failed' ? 'No script: the proposal failed validation and was rejected in full. Nothing was shown as guidance.' : 'No script: no approved Appendix B script matches this situation, and the Lab will not invent one.'}</p>`;
     }
@@ -521,8 +523,30 @@ Cycle stages: ${p.stage_ids.map(stageName).join(' → ')}
 Stuck point: ${p.stuck_point_anchor || 'none'} (a lens at Struggle → Support, never a stage)
 Rationale codes: ${(p.rationale_codes||[]).join(', ') || '—'}</pre>`;
 }
-function traceHtml(trace) {
-  return `<h3>Evidence trace</h3><ol class="trace">${trace.map(t => `<li><b>${t.step}</b><span class="st ${t.status}">${t.status}</span><br>${t.detail}</li>`).join('')}</ol>`;
+/* --- Presentation refinement (Founder-approved A1/A5): in the result panel,
+   the local-matching and budget steps show plain-language summaries on the
+   surface, with the verbatim trace detail preserved inside a per-step
+   "Full evidence" expander. The rail mirror keeps the verbatim rendering —
+   it already sits inside the expandable railTraceDetails element. --- */
+function traceSummary(t) {
+  if (/^Rule /.test(t.detail)) {
+    if (/Local script selection/.test(t.step)) return 'A local deterministic rule selected the approved script for this scenario. Script content never leaves this machine.';
+    if (/Local script matching/.test(t.step)) {
+      const m = t.detail.match(/Script #(\d+)/);
+      return m ? `A local deterministic rule matched Script #${m[1]} for this text.` : 'A local deterministic rule matched an approved script for this text.';
+    }
+    return null;
+  }
+  if (/Budget safeguard/.test(t.step)) return 'The budget safeguard accounted for this run against the application-side hard stop. (Demo accounting uses mocked usage.)';
+  return null;
+}
+function traceHtml(trace, summarize = false) {
+  const item = (t) => {
+    const s = summarize ? traceSummary(t) : null;
+    if (s) return `<li><b>${t.step}</b><span class="st ${t.status}">${t.status}</span><br>${s}<details class="ev"><summary>Full evidence</summary>${t.detail}</details></li>`;
+    return `<li><b>${t.step}</b><span class="st ${t.status}">${t.status}</span><br>${t.detail}</li>`;
+  };
+  return `<h3>Evidence trace</h3><ol class="trace">${trace.map(item).join('')}</ol>`;
 }
 function render(r) {
   lastRun = r;
@@ -532,12 +556,12 @@ function render(r) {
     el.innerHTML = `<div class="outcome stop"><h3>${s.heading || 'Safety stop'}</h3><span class="badge">${s.badge}</span>
       ${s.classLine ? `<p><b>${s.classLine}</b></p>` : ''}<p>${s.text || s.body || ''}</p>
       ${s.resources ? '<ul>' + s.resources.map(x => `<li>${x}</li>`).join('') + '</ul>' : ''}
-      <p class="attr">The guidance stops here. A safety stop cannot be confirmed away, retried around, or overridden.</p></div>` + traceHtml(r.trace);
+      <p class="attr">The guidance stops here. A safety stop cannot be confirmed away, retried around, or overridden.</p></div>` + traceHtml(r.trace, true);
     updateRail(r); resetWheelIllustrative();
     return;
   }
   if (r.outcome === 'NEEDS-MODEL') {
-    el.innerHTML = `<div class="outcome fallback"><h3>Deterministic layers ran — classification needs the live model</h3><p>Your fictional text passed screening and local matching (see the trace). The AI interpretation step is not called in this demo.</p></div>` + traceHtml(r.trace);
+    el.innerHTML = `<div class="outcome fallback"><h3>Deterministic layers ran — classification needs the live model</h3><p>Your fictional text passed screening and local matching (see the trace). The AI interpretation step is not called in this demo.</p></div>` + traceHtml(r.trace, true);
     updateRail(r); resetWheelIllustrative();
     return;
   }
@@ -547,7 +571,7 @@ function render(r) {
     <div class="cols">
       <div class="card"><h3>What the AI proposed</h3><p class="attr">Source: ${r.proposalSource}</p>${proposalHtml(r.proposal)}</div>
       <div class="card"><h3>What the system checked</h3><p>Every identifier was validated against the published framework. A label of <b>LIVE</b> (or recorded live) means a real model response; <b>MOCK</b> is a demo stand-in. Invalid proposals are rejected, never repaired.</p>
-      ${r.match ? `<p>Local match: <b>Script #${r.match.script_number}</b> via rule <b>${r.match.rule_ids.join(', ')}</b>.</p>` : ''}</div>
+      ${r.match ? `<p>Local match: <b>Script #${r.match.script_number}</b>, selected by a local deterministic rule.</p>` : ''}</div>
     </div>`;
   if (r.outcome === 'GUIDANCE' && r.script) {
     html += `<div class="card script" style="margin-top:12px"><h3>Your script — ${r.script.situation}</h3>
@@ -561,7 +585,7 @@ function render(r) {
   } else {
     html += `<div class="card" style="margin-top:12px"><h3>Why no script?</h3><p>${r.reason === 'ambiguous-script-match' ? 'Two approved scripts match different parts of this scenario (scripts ' + (r.candidates||[]).join(' and ') + '). Rather than guess, the Lab stops and lets the parent choose the focus on the Wheel first.' : r.reason === 'validation-failed' ? 'The AI proposed something outside the published framework, so it was rejected in full. Nothing was shown as guidance.' : 'No approved Appendix B script matches this situation. The Lab says so honestly instead of inventing one — the parent picks the wobbly spoke on the Wheel and works the Cycle from there.'}</p></div>`;
   }
-  html += traceHtml(r.trace) + `<p class="attr">Budget safeguard: $${(r.budget.committed_usd).toFixed(4)} committed of the $${r.budget.ceiling_usd} application-side hard stop (demo runs use mocked usage).</p></div>`;
+  html += traceHtml(r.trace, true) + `<p class="attr">Budget safeguard: this run was accounted against the application-side hard stop (demo runs use mocked usage).</p></div>`;
   el.innerHTML = html;
   const cb = $('#confirmBtn');
   if (cb) cb.addEventListener('click', () => { cb.textContent = 'Confirmed ✓ — interpretation locked for this run'; cb.disabled = true; });

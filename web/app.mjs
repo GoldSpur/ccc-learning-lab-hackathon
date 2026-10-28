@@ -30,7 +30,7 @@ const MOCK_USAGE = { input_tokens: 314, output_tokens: 260, cached_input_tokens:
 export const PRESETS = [
   {
     id: 'at1',
-    title: 'AT1 — "I\'m stupid" (homework)',
+    title: '"I\'m stupid" — homework scenario',
     tag: 'Canonical demo · recorded live proposal',
     text: 'Fictional scenario: an 8-year-old doing homework says "I\'m stupid" and wants to quit.',
     age: 8,
