@@ -1,18 +1,29 @@
 # Childhood Confidence Learning Lab — Hackathon Prototype
 
+## For hackathon judges — start here
+
+**Run it locally (the fully verified path).** No Meta API account, API key, or other credential is needed, and the demo makes no live model calls.
+
+**Prerequisite:** Node.js **≥ 20**. There are no dependencies to install and no `.env` file or secret of any kind is required.
+
+```
+git clone https://github.com/GoldSpur/ccc-learning-lab-hackathon.git
+cd ccc-learning-lab-hackathon
+node web/server.mjs
+```
+
+Then open **http://127.0.0.1:8377** — try the guided "I'm stupid" — homework scenario (a genuine recorded Muse Spark 1.3 response, labeled **RECORDED LIVE**), the safety-stop and fallback presets, and the parent override; every run shows its provenance label and evidence trace. Tests: `node --test tests/*.test.js` (184 mocked tests).
+
+**Or use the hosted demo: https://lab-staging.createchildhoodconfidence.com/**
+No Meta API account or API key is needed for the hosted demo either; it does require **email-PIN verification**: enter any email address you control, request the login code, and enter the one-time PIN sent to that inbox (valid for about 10 minutes; the session then lasts 24 hours). The access policy is intentionally open (Cloudflare Access "Include Everyone") and is labeled as such — start from the full URL above, since the bare cloudflareaccess.com root shows an unrelated "App Launcher" notice. The hosted demo makes no live model calls.
+
+Hosted-demo access note (Oct 29, 2026): Initial email-PIN access was verified, but access after session expiry has not been successfully re-verified. The latest attempt did not complete PIN entry before the code expired. The cause of the earlier unsuccessful re-entry remains unconfirmed. For reliable evaluation, use the fully tested local setup above.
+
 A framework-constrained AI prototype built during the **Meta Global AI Developer Hackathon (October 26 – November 4, 2026)**, Indie Developer Track, "Build for Your World."
 
 **What it is:** a parent describes a fictional everyday confidence moment. The system classifies it against the author's published framework — the Confidence Wheel (what to focus on) and the Confidence Cycle (how confidence is built) — using a Meta Muse model that may only propose canonical framework identifiers. A deterministic validator rejects anything outside the framework. Approved parent scripts are selected deterministically from published book content, application-side; the model never generates or receives them. Safety screening is deterministic, uses exact pre-approved wording, and stops the pipeline when it triggers — a stop cannot be bypassed by confirmation, retry, or fallback.
 
 **What it is not:** not medical or mental-health advice — the Lab is a parenting-education prototype over a published confidence framework; it does not diagnose any child or advise on mental-health conditions or treatment, and inputs matching the registered screening rules are stopped by deterministic screening before any model call — the rules are a fixed, registered list, not comprehensive danger or mental-health detection (safety copy CSR-3, **PROVISIONAL**, independent safety review pending). Not a chatbot and not a generic education chatbot — there is no free-form chat surface; the product is a governed pipeline (deterministic safety screen → constrained model proposal → deterministic validation → local verbatim script selection → parent confirm/override → honest labeled fallback). Not a diagnostic tool, not a public product. Fictional scenarios only, ages 7–9. Safety screening is **not independently validated**; safety wording is provisional and awaiting independent review (see `content/safety-copy.json` and PROVENANCE.md).
-
-## Try the hosted demo
-
-**https://lab-staging.createchildhoodconfidence.com/**
-
-The demo is behind a Cloudflare Access email-PIN login. There is no account and no password: enter **any email address you control**, request the login code, and enter the one-time PIN sent to that inbox (it arrives within a minute and is valid for about 10 minutes). The Learning Lab then loads in your browser; the session lasts 24 hours, and if it expires you repeat the same steps. The access policy is intentionally open (Cloudflare Access "Include Everyone") and is labeled as such — please start from the full URL above, since the bare cloudflareaccess.com root shows an unrelated "App Launcher" notice.
-
-**The hosted demo makes no live model calls.** Its transports are mocked/recorded only; see the labels section below for exactly what that means.
 
 ## Labels — RECORDED LIVE, MOCK, and the separate Phase 1 live experiment
 
@@ -24,7 +35,7 @@ These three are different things and are never interchanged:
 
 ## Status
 
-**Frozen build.** The judge-facing interface is frozen at public commit `bcdffb7a53e27f0a77839f1284404ffa8e334ef6` (the A1–B8 presentation refinement is the HEAD commit); the hosted staging deployment serves exactly this revision, and its health endpoint reports `live: "disabled"` by construction. The mocked test suite passes **184/184** (`node --test tests/*.test.js`). The Phase 1 live validation has been executed, audited, and frozen (below). Nothing in the demo, the repository, or the staging deployment can make a live model call.
+**Frozen build.** The judge-facing interface is frozen at public commit `bcdffb7a53e27f0a77839f1284404ffa8e334ef6` (the A1–B8 presentation refinement commit); the hosted staging deployment serves exactly this revision, and its health endpoint reports `live: "disabled"` by construction. The mocked test suite passes **184/184** (`node --test tests/*.test.js`). The Phase 1 live validation has been executed, audited, and frozen (below). Nothing in the demo, the repository, or the staging deployment can make a live model call.
 
 ## Phase 1 live validation — evidence and limitations
 
@@ -34,7 +45,7 @@ Phase 1 was a preregistered controlled run: **21/21 live dispatches completed wi
 
 **Privacy & data minimization:** API requests carry only the fictional scenario text and the minimum canonical identifiers/definitions required for classification. Full scripts, complete framework materials, and validator logic never leave this application's environment. No real child or parent information is ever sent to the API. Development usage is funded by Meta promotional hackathon credits; Meta's billing disclosure for credit-funded use is recorded in PROVENANCE.md.
 
-**Run the demo locally:** `node web/server.mjs` → http://127.0.0.1:8377 (mocked/recorded transports only; the demo server has no live-model path). Deep-link a preset with `?run=at1`, `?run=safety-test`, etc.
+**Run the demo locally** (Node.js ≥ 20; no dependencies, accounts, or credentials): `node web/server.mjs` → http://127.0.0.1:8377 (mocked/recorded transports only; the demo server has no live-model path). Deep-link a preset with `?run=at1`, `?run=safety-test`, etc.
 
 **Tests:** `node --test tests/*.test.js` — 184 mocked tests, all passing.
 
