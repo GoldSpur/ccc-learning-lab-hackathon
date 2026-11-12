@@ -3,7 +3,7 @@
 These limitations are part of the results. They travel with every figure in
 this package, and they bound what any figure may be taken to mean.
 
-## The twelve standing limitations (audit register, Part 2)
+## The thirteen standing limitations (audit register, Part 2; L-13 added Nov 11, 2026 — see `remediation-2026-11-11.md`)
 
 | # | Limitation | Consequence for interpretation |
 |---|---|---|
@@ -19,6 +19,7 @@ this package, and they bound what any figure may be taken to mean.
 | L-10 † | **Hosted-experience verification incomplete** *(as recorded at audit time; see the annotation below)* — staging checklist then stood at 5 PASS / 6 BLOCKED; an early automated hosted browser battery attempt errored without results. | At audit time, claims about the hosted judge experience rested on the founder-device session + on-box evidence only. † Superseded in part — see **Annotation A** below. |
 | L-11 | **Attempt-1 launch** — the executed run is, precisely, the second launch; the first self-halted at $0.00 before dispatch on a harness serialization defect. | Fully disclosed and artifact-preserved; the halt demonstrates fail-closed behavior, and "the run" in reporting means the single full execution that followed the re-run gates. |
 | L-12 | **A5 construction note** — for Arms A/B the verbatim criterion fails by construction (ungoverned output is never the register text); for Arm C on GUIDANCE cells it passes by construction (the rendered text is the register record). | A5 measures architectural provenance, not model quality; it should not be quoted as a quality comparison. |
+| L-13 | **Matcher exact-phrase coverage** — the seven script-selection rules match near-verbatim situation phrases from the published scripts; paraphrases and synonyms (e.g. "dumb" for "stupid", "losing at Uno" for "losing a game") do not match. | Unmatched situations return the labeled fallback by design — never a wrong or invented script; matcher coverage is bounded to the registered phrasings until the rule set is deliberately extended. |
 
 ## Provisional or untested — stated, not hidden
 

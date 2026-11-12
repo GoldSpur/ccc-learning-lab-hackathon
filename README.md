@@ -12,7 +12,7 @@ cd ccc-learning-lab-hackathon
 node web/server.mjs
 ```
 
-Then open **http://127.0.0.1:8377** — try the guided "I'm stupid" — homework scenario (a genuine recorded Muse Spark 1.3 response, labeled **RECORDED LIVE**), the safety-stop and fallback presets, and the parent override; every run shows its provenance label and evidence trace. Tests: `node --test tests/*.test.js` (184 mocked tests).
+Then open **http://127.0.0.1:8377** — try the guided "I'm stupid" — homework scenario (a genuine recorded Muse Spark 1.3 response, labeled **RECORDED LIVE**), the safety-stop and fallback presets, and the parent override; every run shows its provenance label and evidence trace. Tests: `node --test tests/*.test.js` (184 mocked tests — 181 run on any machine; 3 provenance guards skip with an explicit reason where founder-side source files are absent).
 
 **Or use the hosted demo: https://lab-staging.createchildhoodconfidence.com/**
 No Meta API account or API key is needed for the hosted demo either; it does require **email-PIN verification**: enter any email address you control, request the login code, and enter the one-time PIN sent to that inbox (valid for about 10 minutes; the session then lasts 24 hours). The access policy is intentionally open (Cloudflare Access "Include Everyone") and is labeled as such — start from the full URL above, since the bare cloudflareaccess.com root shows an unrelated "App Launcher" notice. The hosted demo makes no live model calls.
@@ -35,7 +35,7 @@ These three are different things and are never interchanged:
 
 ## Status
 
-**Frozen build.** The judge-facing interface is frozen at public commit `bcdffb7a53e27f0a77839f1284404ffa8e334ef6` (the A1–B8 presentation refinement commit); the hosted staging deployment serves exactly this revision, and its health endpoint reports `live: "disabled"` by construction. The mocked test suite passes **184/184** (`node --test tests/*.test.js`). The Phase 1 live validation has been executed, audited, and frozen (below). Nothing in the demo, the repository, or the staging deployment can make a live model call.
+**Frozen build.** The judge-facing interface is frozen at public commit `bcdffb7a53e27f0a77839f1284404ffa8e334ef6` (the A1–B8 presentation refinement commit); the hosted staging deployment serves exactly this revision, and its health endpoint reports `live: "disabled"` by construction. The mocked test suite passes **181/184 on any clean machine and 184/184 on the founder's machine** (`node --test tests/*.test.js`; three provenance guards compare in-repo content against founder-side source files outside this repository and skip with an explicit reason where those files are absent — see `evidence/remediation-2026-11-11.md`). The Phase 1 live validation has been executed, audited, and frozen (below). Nothing in the demo, the repository, or the staging deployment can make a live model call.
 
 ## Phase 1 live validation — evidence and limitations
 
@@ -47,6 +47,6 @@ Phase 1 was a preregistered controlled run: **21/21 live dispatches completed wi
 
 **Run the demo locally** (Node.js ≥ 20; no dependencies, accounts, or credentials): `node web/server.mjs` → http://127.0.0.1:8377 (mocked/recorded transports only; the demo server has no live-model path). Deep-link a preset with `?run=at1`, `?run=safety-test`, etc.
 
-**Tests:** `node --test tests/*.test.js` — 184 mocked tests, all passing.
+**Tests:** `node --test tests/*.test.js` — 184 mocked tests: 181 pass on any machine, 3 founder-machine provenance guards skip explicitly when their source files are absent, 0 fail.
 
 See **PROVENANCE.md** for what is pre-existing (labeled, with hashes) versus built during the event.

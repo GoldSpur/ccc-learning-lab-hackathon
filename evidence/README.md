@@ -52,6 +52,7 @@ the adjacent categories:
 | [budget.md](budget.md) | Aggregate budget reconciliation only: reserved worst case vs measured actual, by arm and in total, against the project's $120 application-side ceiling. |
 | [audit.md](audit.md) | The project-internal, read-only audit: what was machine-recomputed and verified, what remains a provisional single-rater assessment, and the discrepancy register's outcome. |
 | [limitations.md](limitations.md) | The complete limitations register, the claims this evidence does not support, and one preserved historical passage with a dated publication annotation. |
+| [remediation-2026-11-11.md](remediation-2026-11-11.md) | Post-judging remediation record: the test-portability defect behind the Nov 2 verification's 184/184 figure, the explicit-skip fix, the corrected portable result (181/184 clean machine, 184/184 founder machine), and limitation L-13. |
 
 ## How to read the figures — two evidence classes, never blended
 
